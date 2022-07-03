@@ -42,6 +42,7 @@ namespace project1
                         return builtInFactory(context);
                     };
                 });
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "project1", Version = "v1" });
@@ -58,6 +59,12 @@ namespace project1
                 app.UseSwaggerUI(c => {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "project1 v1");
                 });
+                app.UseCors(x => x
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(origin => true)
+                );
             }
             
             app.UseStatusCodePages();

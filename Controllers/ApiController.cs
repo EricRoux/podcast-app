@@ -8,7 +8,7 @@ namespace project1
     [Route("/api/v1")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public class ApiController : Controller
+    public class ApiController : ControllerBase
     {
         /// <summary>
         /// Add new question
