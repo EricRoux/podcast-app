@@ -1,7 +1,7 @@
-wwwroot/node_modules/
-wwwroot/public/
+UI/node_modules/
+UI/public/
 obj/
 bin/
 .vscode/
-Data/Models/WeatherForecast.cs
-Controllers/WeatherForecastController.cs
+Models/WeatherForecast.cs
+Presenter/Controllers/WeatherForecastController.cs

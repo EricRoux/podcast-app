@@ -5,14 +5,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using project1.Data;
 
 namespace project1
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private IConfigurationRoot dbConfigs;
+        public Startup(IConfiguration configuration, IWebHostEnvironment hostEnv)
         {
             Configuration = configuration;
+            dbConfigs = new ConfigurationBuilder().SetBasePath(hostEnv.ContentRootPath).AddJsonFile("dbSettings.json").Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -20,7 +24,9 @@ namespace project1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<AppDBContent>(options =>
+                options.UseNpgsql(dbConfigs.GetConnectionString("DefaultConnection"))
+            );
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -79,6 +85,10 @@ namespace project1
             {
                 endpoints.MapControllers();
             });
+
+            using (IServiceScope scope = app.ApplicationServices.CreateScope()) {
+                AppDBContent content = scope.ServiceProvider.GetRequiredService<AppDBContent>();
+            }
         }
     }
 }

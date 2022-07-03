@@ -1,10 +1,8 @@
-using System.Data;
-
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace project1
+namespace project1.Models
 {
     public class Question
     {

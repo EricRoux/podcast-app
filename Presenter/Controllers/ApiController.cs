@@ -1,8 +1,9 @@
 using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using project1.Models;
 
-namespace project1
+namespace project1.Controllers
 {
     [ApiController]
     [Route("/api/v1")]
