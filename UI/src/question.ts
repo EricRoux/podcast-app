@@ -1,9 +1,9 @@
 import { IQuestion } from "./Interfaces/IQuestion";
-import { addQuestionToLocalStorage } from "./utils";
+import { addQuestionToLocalStorage } from "./Utils/addQuestionToLocalStorage";
 import { IQuestionResponse } from "./Interfaces/IQuestionResponse";
 
 export class Question {
-    static create(question: IQuestion): Promise<void> {
+    create(question: IQuestion): Promise<void> {
         return fetch("http://localhost:5050/api/v1/newQuestion", {
             method: "POST",
             body: JSON.stringify(question),
