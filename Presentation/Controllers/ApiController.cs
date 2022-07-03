@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using project1.Models;
 
-namespace project1.Controllers
+namespace project1.Presentation.Controllers
 {
     [ApiController]
     [Route("/api/v1")]
