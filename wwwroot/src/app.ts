@@ -5,7 +5,7 @@ const form: HTMLElement = document.querySelector("#form");
 const input: HTMLInputElement = form.querySelector("#question-input");
 const submitBtn: HTMLButtonElement = form.querySelector("#submit");
 
-interface question {
+interface IQuestion {
     text: string,
     date: string,
 }
@@ -13,7 +13,7 @@ interface question {
 function submitFormHandler(event: Event): void {
     event.preventDefault(); // Не перезагружать страницу
     if (isValid(input.value)) {
-        const question: question = {
+        const question: IQuestion = {
             text: input.value.trim(),
             date: new Date().toJSON(),
         };
