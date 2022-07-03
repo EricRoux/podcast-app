@@ -1,2 +1,4 @@
-/node_modules
-/public
+wwwroot/node_modules
+wwwroot/public
+/obj
+/bin

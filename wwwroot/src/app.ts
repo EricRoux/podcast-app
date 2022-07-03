@@ -23,7 +23,6 @@ function submitFormHandler(event: Event): void {
 
         input.value = "";
         input.className = "";
-        submitBtn.disabled = false;
     }
 }
 
