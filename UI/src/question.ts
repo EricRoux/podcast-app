@@ -1,7 +1,9 @@
 import { IQuestion } from "./Interfaces/IQuestion";
+import { addQuestionToLocalStorage } from "./utils";
+import { IQuestionResponse } from "./Interfaces/IQuestionResponse";
 
 export class Question {
-    static create<T>(question: IQuestion): Promise<T> {
+    static create(question: IQuestion): Promise<void> {
         return fetch("http://localhost:5050/api/v1/newQuestion", {
             method: "POST",
             body: JSON.stringify(question),
@@ -9,12 +11,13 @@ export class Question {
                 "Content-Type": "application/json"
             }, 
         })
-            .then((response: Response): Promise<T> => {
-                if(!response.ok) {
-                    throw new Error(response.statusText);
-                } else {
-                    return response.json();
-                }
-            });
+            .then((response: Response): Promise<IQuestionResponse> => {
+                return response.json();
+            })
+            .then((json: IQuestionResponse): IQuestion => {
+                question.id = json.id;
+                return question;
+            })
+            .then(addQuestionToLocalStorage);
     }
 }
