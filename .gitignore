@@ -3,5 +3,5 @@ wwwroot/public/
 obj/
 bin/
 .vscode/
-WeatherForecast.cs
+Data/Models/WeatherForecast.cs
 Controllers/WeatherForecastController.cs

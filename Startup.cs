@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace project1
@@ -20,7 +21,27 @@ namespace project1
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                // To preserve the default behavior, capture the original delegate to call later.
+                    var builtInFactory = options.InvalidModelStateResponseFactory;
+
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var logger = context.HttpContext.RequestServices
+                                            .GetRequiredService<ILogger<Program>>();
+
+                        // Perform logging here.
+                        // ...
+
+                        // Invoke the default behavior, which produces a ValidationProblemDetails
+                        // response.
+                        // To produce a custom response, return a different implementation of 
+                        // IActionResult instead.
+                        return builtInFactory(context);
+                    };
+                });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "project1", Version = "v1" });
@@ -38,8 +59,10 @@ namespace project1
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "project1 v1");
                 });
             }
+            
+            app.UseStatusCodePages();
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
