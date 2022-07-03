@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using project1.Data;
+using project1.Data.Interfaces;
+using project1.Data.Repositories;
 
 namespace project1
 {
@@ -27,6 +29,8 @@ namespace project1
             services.AddDbContext<AppDBContent>(options =>
                 options.UseNpgsql(dbConfigs.GetConnectionString("DefaultConnection"))
             );
+            services.AddTransient<IQuestion, QuestionsRepository>();
+
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -48,7 +52,9 @@ namespace project1
                         return builtInFactory(context);
                     };
                 });
+            
             services.AddCors();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "project1", Version = "v1" });

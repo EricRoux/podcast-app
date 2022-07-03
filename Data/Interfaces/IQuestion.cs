@@ -5,5 +5,6 @@ namespace project1.Data.Interfaces
 {
     public interface IQuestion
     {
+        void addQuestion(Question question);
     }
 }

@@ -5,3 +5,4 @@ bin/
 .vscode/
 Models/WeatherForecast.cs
 Presentation/Controllers/WeatherForecastController.cs
+Migrations/
