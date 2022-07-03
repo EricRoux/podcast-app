@@ -1,14 +1,10 @@
 import "./styles.scss";
 import { isValid } from "./utils";
+import { IQuestion } from "./Interfaces/IQuestion";
 
 const form: HTMLElement = document.querySelector("#form");
 const input: HTMLInputElement = form.querySelector("#question-input");
 const submitBtn: HTMLButtonElement = form.querySelector("#submit");
-
-interface IQuestion {
-    text: string,
-    date: string,
-}
 
 function submitFormHandler(event: Event): void {
     event.preventDefault(); // Не перезагружать страницу
