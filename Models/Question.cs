@@ -13,7 +13,6 @@ namespace project1.Models
         public string Text { get; set; }
 
         [Required]
-        [Column(TypeName = "Date")]
         public DateTime Date { get; set; }
     }
 }
