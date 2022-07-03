@@ -1,4 +1,7 @@
-wwwroot/node_modules
-wwwroot/public
-/obj
-/bin
+wwwroot/node_modules/
+wwwroot/public/
+obj/
+bin/
+.vscode/
+WeatherForecast.cs
+Controllers/WeatherForecastController.cs
