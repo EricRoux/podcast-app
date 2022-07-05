@@ -68,14 +68,14 @@ body {
             min-height: 200px;
             background-color: #f3ecec;
             margin: 100px auto;
+            padding: auto;
             border: 1px solid #3f4d58 ;
             > h1 {
                 text-align: center;
             }
-            .modal-content {
-                padding: 1rem;
+            .model-content  {
+                margin: 1rem;
             }
-
         }
     }
 }

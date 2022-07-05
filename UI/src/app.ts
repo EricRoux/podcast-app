@@ -4,6 +4,7 @@ import { IQuestion } from "./Interfaces/IQuestion";
 import { Question } from "./question";
 import { renderList } from "./Utils/renderList";
 import { createModal } from "./Utils/createModal";
+import { getAuthFormHTML, authWithEmailAndPassword } from "./auth";
 
 const form: HTMLElement = document.querySelector("#form");
 const input: HTMLInputElement = form.querySelector("#question-input");
@@ -34,11 +35,42 @@ function imputChanged(): void {
 }
 
 function openModal(className: string): void {
-    createModal(className, "Авторизация", "<h1>Test</h1>");
+    createModal(className, "Авторизация", getAuthFormHTML());
 }
 
 function closeModal(className: string): void {
     document.querySelector(`.${className}`).remove();
+}
+
+function authFormHandler(event: Event): void {
+    event.preventDefault();
+}
+
+function modalEvents(className: string): void {
+    document
+        .querySelector(`.${className}`)
+        .addEventListener("submit", authFormHandler, {once: true});
+}
+
+function modalAuthorization(className: string): void {
+    const email: string = (
+        <HTMLInputElement>document
+            .querySelector(`.${className}`)
+            .querySelector("#email")
+    ).value;
+
+    const password: string = (
+        <HTMLInputElement>document
+            .querySelector(`.${className}`)
+            .querySelector("#email")
+    ).value;
+
+    authWithEmailAndPassword(email, password)
+        .then((token: string): void => {
+            localStorage.setItem("authToken", token);
+            modalBtn.innerText = "o";
+            reloadQuestions();
+        });
 }
 
 function modal(): void {
@@ -46,10 +78,14 @@ function modal(): void {
     if(modalBtn.innerText == "+"){
         openModal(modalClass);
         modalBtn.innerText = "-";
-    } else {
+    } else if(modalBtn.innerText == "-") {
         closeModal(modalClass);
         modalBtn.innerText = "+";
+    } else {
+        reloadQuestions();
     }
+    modalEvents(modalClass);
+    modalAuthorization(modalClass);
 }
 
 window.addEventListener("load", renderList);
