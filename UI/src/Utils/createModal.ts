@@ -1,7 +1,11 @@
-export function createModal(title: string, content: string): void {
-    if(!document.querySelector(".modal")){
+export function createModal(
+    className: string, 
+    title: string, 
+    content: string
+): void {
+    if(!document.querySelector(`.${className}`)){
         const modal: HTMLElement = document.createElement("div");
-        modal.classList.add("modal");
+        modal.classList.add(className);
         
         modal.innerHTML = `
         <div class="modal-form">

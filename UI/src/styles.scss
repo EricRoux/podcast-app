@@ -50,6 +50,7 @@ body {
         position: fixed;
         bottom: 50px;
         right: 50px;
+        z-index: 1001;
     }
     .modal {
         top: 0;
@@ -62,11 +63,13 @@ body {
         z-index: 1000;
         .modal-form {
             max-width: 600px;
+            min-width: 265px;
+            max-height: 400px;
+            min-height: 200px;
             background-color: #f3ecec;
             margin: 100px auto;
-            min-height: 300px;
             border: 1px solid #3f4d58 ;
-            h1 {
+            > h1 {
                 text-align: center;
             }
             .modal-content {

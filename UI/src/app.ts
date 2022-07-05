@@ -33,11 +33,26 @@ function imputChanged(): void {
     submitBtn.disabled = !isValidInput(input.value);
 }
 
-function openModal(): void {
-    createModal("Авторизация", "<h1>Test</h1>");
+function openModal(className: string): void {
+    createModal(className, "Авторизация", "<h1>Test</h1>");
+}
+
+function closeModal(className: string): void {
+    document.querySelector(`.${className}`).remove();
+}
+
+function modal(): void {
+    const modalClass: string = "modal";
+    if(modalBtn.innerText == "+"){
+        openModal(modalClass);
+        modalBtn.innerText = "-";
+    } else {
+        closeModal(modalClass);
+        modalBtn.innerText = "+";
+    }
 }
 
 window.addEventListener("load", renderList);
 form.addEventListener("submit", submitFormHandler);
 input.addEventListener("input", imputChanged);
-modalBtn.addEventListener("click", openModal);
+modalBtn.addEventListener("click", modal);
