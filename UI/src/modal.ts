@@ -7,6 +7,13 @@ export class Modal {
 
     constructor(modalBtn: HTMLButtonElement) {
         this.modalBtn = modalBtn;
+        
+        this.createBtnEvents = this.createBtnEvents.bind(this);
+        this.modal = this.modal.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.modalEvents = this.modalEvents.bind(this);
+        this.authFormHandler = this.authFormHandler.bind(this);
     }
 
     openModal(className: string): void {
