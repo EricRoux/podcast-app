@@ -44,3 +44,35 @@
 .author {
     font-size: .8rem;
 }
+
+body {
+    .floating-btn {
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+    }
+    .modal {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        position: fixed;
+        background-color: rgba(0,0,0,.2);
+        overflow-y: auto;
+        z-index: 1000;
+        .modal-form {
+            max-width: 600px;
+            background-color: #f3ecec;
+            margin: 100px auto;
+            min-height: 300px;
+            border: 1px solid #3f4d58 ;
+            h1 {
+                text-align: center;
+            }
+            .modal-content {
+                padding: 1rem;
+            }
+
+        }
+    }
+}

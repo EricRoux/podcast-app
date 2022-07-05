@@ -12,7 +12,10 @@ export class Question {
             }, 
         })
             .then((response: Response): Promise<IQuestionResponse> => {
-                return response.json();
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error("Something went wrong");
             })
             .then((json: IQuestionResponse): IQuestion => {
                 question.id = json.id;
