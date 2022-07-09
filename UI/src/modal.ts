@@ -16,15 +16,15 @@ export class Modal {
         this.authFormHandler = this.authFormHandler.bind(this);
     }
 
-    openModal(className: string): void {
+    private openModal(className: string): void {
         createModal(className, "Авторизация", getAuthFormHTML());
     }
     
-    closeModal(className: string): void {
+    private closeModal(className: string): void {
         document.querySelector(`.${className}`).remove();
     }
     
-    authFormHandler(event: Event): void {
+    private authFormHandler(event: Event): void {
         event.preventDefault();
         const target: HTMLTextAreaElement = event.target as HTMLTextAreaElement;
         const email: string = (
@@ -48,13 +48,13 @@ export class Modal {
             });
     }
     
-    modalEvents(className: string): void {
+    private modalEvents(className: string): void {
         const modal = document.querySelector(`.${className}`);
         modal.addEventListener("submit", this.authFormHandler, {once: true});
         modal.className = className;
     }
     
-    modal(): void {
+    private modal(): void {
         const modalClass: string = "modal";
         if(this.modalBtn.innerText == "+"){
             this.openModal(modalClass);
