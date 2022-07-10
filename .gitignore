@@ -6,3 +6,4 @@ bin/
 Models/WeatherForecast.cs
 Presentation/Controllers/WeatherForecastController.cs
 Migrations/
+dbSettings.json
