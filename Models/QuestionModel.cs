@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace project1.Models
 {
+    [Table("feedback", Schema = "Questions")]
     public class QuestionModel
     {
         [Key]

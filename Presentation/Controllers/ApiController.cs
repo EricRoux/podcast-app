@@ -24,13 +24,13 @@ namespace project1.Presentation.Controllers
         /// </summary>
         [HttpPost("newQuestion")]
         public IActionResult newQuestion([FromBody] QuestionModel q){
-            int dbResponse = questions.AddQiestion(q);
-            bool checker = questions.Check(dbResponse).Result;
+            int dbResponseId = questions.AddQiestionToId(q);
+            bool checker = questions.Check(dbResponseId).Result;
             if(!checker){
                 return BadRequest();
             }
             AddQuestionCompliteModel response = new AddQuestionCompliteModel{
-                Id = dbResponse,
+                Id = dbResponseId,
                 Text = "Комментарий успешно добавлен"
             };
             return Ok(response);

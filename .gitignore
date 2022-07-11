@@ -3,7 +3,5 @@ UI/public/
 obj/
 bin/
 .vscode/
-Models/WeatherForecast.cs
-Presentation/Controllers/WeatherForecastController.cs
 Migrations/
 dbSettings.json

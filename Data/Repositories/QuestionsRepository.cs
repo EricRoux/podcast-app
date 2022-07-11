@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using project1.Data;
 using project1.Data.Interfaces;
 using project1.Models;
 
@@ -19,5 +18,8 @@ namespace project1.Data.Repositories
             appDBContent.SaveChanges();
             return question.Id;
         }
+
+        public async Task<QuestionModel> Check(int questionId) => await appDBContent.Question.FindAsync(questionId);
+
     }
 }
