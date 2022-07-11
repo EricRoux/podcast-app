@@ -17,10 +17,7 @@ namespace project1.Domain.UseCases
             this.authRepository = authRepository;   
         }
 
-        public async Task<bool> CheckPassword(AccountModel account){
-            string password = await authRepository.GetPassword(account);
-            return password == account.Password;
-        }
+        public bool CheckPassword(AccountModel account) => authRepository.GetPassword(account) == account.Password;
 
     }
 }

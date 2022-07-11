@@ -4,6 +4,6 @@ namespace project1.Presentation.Interfaces
 {
     public interface IAuthEntity
     {
-        Task<bool> CheckPassword(AccountModel account);
+        bool CheckPassword(AccountModel account);
     }
 }

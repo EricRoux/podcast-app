@@ -6,7 +6,7 @@ namespace project1.Data.Interfaces
 {
     public interface IAuthRepository
     {
-        Task<string> GetPassword(AccountModel account);
+        string GetPassword(AccountModel account);
         Guid CreateAccount(AccountModel account);
     }
 }

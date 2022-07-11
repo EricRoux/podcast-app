@@ -61,7 +61,7 @@ namespace project1.Presentation
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "project1 v1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 });
                 app.UseCors(x => x
                     .AllowAnyMethod()

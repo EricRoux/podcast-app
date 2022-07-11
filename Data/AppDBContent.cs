@@ -20,7 +20,7 @@ namespace project1.Data
                 .AddEnvironmentVariables()
                 .Build();
             optionsBuilder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
-                .LogTo(System.Console.WriteLine)
+                // .LogTo(System.Console.WriteLine)
                 ;
         }
 

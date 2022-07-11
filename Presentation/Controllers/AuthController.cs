@@ -19,8 +19,9 @@ namespace project1.Presentation.Controllers
         }
 
         [Route("login")]
+        [HttpPost]
         public IActionResult Login([FromBody]AccountModel request){
-            bool status = auth.CheckPassword(request).Result;
+            bool status = auth.CheckPassword(request);
             if(!status){
                 return Ok(new AuthResponseModel(){
                     Text = "Authorization Faild",

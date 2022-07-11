@@ -2,6 +2,7 @@ using System;
 using project1.Data.Interfaces;
 using project1.Models;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace project1.Data.Repositories
 {
@@ -22,11 +23,15 @@ namespace project1.Data.Repositories
             return account.Id;
         }
 
-        public async Task<string> GetPassword(AccountModel account) {
-            AccountModel user = await FindAccount(account);
+        public string GetPassword(AccountModel account) {
+            AccountModel user = FindAccount(account.Email);
             return user.Password;
         }
 
-        private async Task<AccountModel> FindAccount(AccountModel account) => await appDBContent.Account.FindAsync(account.Id);
+        private AccountModel FindAccount(string email) => 
+            appDBContent.Account.Where(
+                acc => acc.Email == email
+            )
+                .FirstOrDefault();
     }
 }
