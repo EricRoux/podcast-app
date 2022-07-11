@@ -4,6 +4,8 @@ using project1.Data.Interfaces;
 using project1.Data.Repositories;
 using project1.Presentation.Interfaces;
 using System.Threading.Tasks;
+using project1.Domain.UseCases.Convert;
+using project1.Models.FromUser;
 
 namespace project1.Domain.UseCases
 {
@@ -14,7 +16,10 @@ namespace project1.Domain.UseCases
             this.questionsRepository = questionsRepository;
         }
 
-        public int AddQiestionToId(QuestionModel q) => questionsRepository.addQuestion(q);
+        public int AddQiestionToId(UserQuestionModel q) {
+            QuestionModel question = new UserQuestionModelToQuestionModelConvert(q).Convert();
+            return questionsRepository.addQuestion(question);
+        }
         public async Task<bool> Check(int questionId) {
             QuestionModel chekcedQuestion = await questionsRepository.Check(questionId);
             return chekcedQuestion.Id == questionId;

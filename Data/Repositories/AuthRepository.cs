@@ -22,11 +22,6 @@ namespace project1.Data.Repositories
             return account.Id;
         }
 
-        public string GetPassword(AccountModel account) {
-            AccountModel user = GetAccountByEmail(account.Email);
-            return user.Password;
-        }
-
         public AccountModel GetAccountByEmail(string email) => 
             appDBContent.Account.Where(
                 acc => acc.Email == email

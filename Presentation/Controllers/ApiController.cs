@@ -2,8 +2,9 @@ using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using project1.Data.Interfaces;
-using project1.Models;
+using project1.Models.FromUser;
 using project1.Presentation.Interfaces;
+using project1.Models.ForUser;
 
 namespace project1.Presentation.Controllers
 {
@@ -23,7 +24,7 @@ namespace project1.Presentation.Controllers
         /// Add new question
         /// </summary>
         [HttpPost("newQuestion")]
-        public IActionResult newQuestion([FromBody] QuestionModel q){
+        public IActionResult newQuestion([FromBody] UserQuestionModel q){
             int dbResponseId = questions.AddQiestionToId(q);
             bool checker = questions.Check(dbResponseId).Result;
             if(!checker){

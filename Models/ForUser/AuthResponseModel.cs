@@ -1,4 +1,4 @@
-namespace project1.Models
+namespace project1.Models.ForUser
 {
     public class AuthResponseModel
     {

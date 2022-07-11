@@ -1,19 +1,19 @@
 using project1.Models;
+using project1.Models.FromUser;
 
 namespace project1.Domain.UseCases.Convert
 {
-    public class RegistrationModelToAccountModel
+    public class UserAuthModelToAccountModelConvert
     {
-        private RegistrationModel regAccount { get; set; }
+        private UserAuthModel regAccount { get; set; }
         private AccountModel account { get; set; }
-        public RegistrationModelToAccountModel(RegistrationModel regAccount)
+        public UserAuthModelToAccountModelConvert(UserAuthModel regAccount)
         {
             this.regAccount =  regAccount;
         }
 
         public AccountModel Convert() {
             this.account = new AccountModel(){
-                Id = regAccount.Id,
                 Email = regAccount.Email,
                 Password = regAccount.Password,
                 Role = Role.User

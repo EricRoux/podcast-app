@@ -1,14 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace project1.Models
+namespace project1.Models.FromUser
 {
-    [Table("Users", Schema = "Accounts")]
-    public class RegistrationModel
-    {
-        [Key]
-        public int Id { get; set; }
-        
+    public class UserAuthModel
+    {        
         [Required]
         public string Email { get; set; }
         

@@ -2,9 +2,9 @@ using System;
 using System.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using project1.Models;
+using project1.Models.ForUser;
 using project1.Presentation.Interfaces;
-
+using project1.Models.FromUser;
 
 namespace project1.Presentation.Controllers
 {
@@ -21,7 +21,7 @@ namespace project1.Presentation.Controllers
 
         [Route("login")]
         [HttpPost]
-        public IActionResult Login([FromBody]AccountModel request){
+        public IActionResult Login([FromBody]UserAuthModel request){
             bool status = auth.CheckPassword(request);
             if(!status){
                 return Ok(new AuthResponseModel(){
@@ -35,7 +35,7 @@ namespace project1.Presentation.Controllers
 
         [Route("registration")]
         [HttpPost]
-        public IActionResult Registration([FromBody]RegistrationModel request){
+        public IActionResult Registration([FromBody]UserAuthModel request){
             int status = auth.CreateAccount(request);
             if(status >= 0){
                 return Ok(new AuthResponseModel(){
