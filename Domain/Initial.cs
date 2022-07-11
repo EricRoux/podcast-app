@@ -7,6 +7,8 @@ using project1.Data;
 using project1.Presentation.Interfaces;
 using project1.Presentation;
 using project1.Domain.Entities;
+using Microsoft.Extensions.Options;
+using project1.Models;
 
 namespace project1.Domain {
     public class Initial {
@@ -30,8 +32,11 @@ namespace project1.Domain {
                 .AddJsonFile("appsettings.Development.json", false, true)
                 .AddEnvironmentVariables();
 
+            AuthTokenModel authOptionsConnfiguration = new AuthTokenModel();
+            IOptions<AuthTokenModel> authOptions = Options.Create(authOptionsConnfiguration);
+
             AppDBContent dataBase = new AppDBContent();
-            Core core = new Core(dataBase);
+            Core core = new Core(dataBase, authOptions);
             core.createUseCases();
 
             IHostBuilder hostBuilder = CreateHostBuilder(args, hostConf, core);

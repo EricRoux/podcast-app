@@ -4,7 +4,7 @@ namespace project1.Presentation.Interfaces
 {
     public interface IAuthEntity
     {
-        bool CheckPassword(UserAuthModel account);
         int CreateAccount(UserAuthModel account);
+        string Login(UserAuthModel account);
     }
 }

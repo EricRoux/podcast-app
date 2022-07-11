@@ -14,21 +14,23 @@ namespace project1.Presentation.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class AuthController: ControllerBase {
 
-        private IAuthEntity auth { get; set; }
-        public AuthController(IAuthEntity auth) {
-            this.auth = auth;
+        private IAuthEntity authEntity { get; set; }
+        public AuthController(IAuthEntity authEntity) {
+            this.authEntity = authEntity;            
         }
 
         [Route("login")]
         [HttpPost]
         public IActionResult Login([FromBody]UserAuthModel request){
-            bool status = auth.CheckPassword(request);
-            if(!status){
+            string token = authEntity.Login(request);
+            if(token == ""){
                 return Ok(new AuthResponseModel(){
+                    Token = "",
                     Text = "Authorization Faild",
                 });
             }
             return Ok(new AuthResponseModel(){
+                Token = token,
                 Text = "Authorization Complite",
             });
         }
@@ -36,7 +38,7 @@ namespace project1.Presentation.Controllers
         [Route("registration")]
         [HttpPost]
         public IActionResult Registration([FromBody]UserAuthModel request){
-            int status = auth.CreateAccount(request);
+            int status = authEntity.CreateAccount(request);
             if(status >= 0){
                 return Ok(new AuthResponseModel(){
                     Text = "Registration Faild. User already exists.",

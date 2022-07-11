@@ -3,6 +3,7 @@ using project1.Data;
 using project1.Data.Interfaces;
 using project1.Data.Repositories;
 using project1.Domain.UseCases;
+using Microsoft.Extensions.Options;
 
 namespace project1.Domain.Entities
 {
@@ -13,15 +14,17 @@ namespace project1.Domain.Entities
         private IAuthRepository authRepository { get; }
         public Question question { get; private set; }
         public Authorization authorization { get; private set; }
-        public Core(AppDBContent appDBContent) { 
+        private IOptions<AuthTokenModel> authOptions { get; }
+        public Core(AppDBContent appDBContent, IOptions<AuthTokenModel> authOptions) { 
             this.appDBContent = appDBContent;
             this.questionsRepository = new QuestionsRepository(appDBContent);
             this.authRepository = new AuthRepository(appDBContent);
+            this.authOptions = authOptions;
         }
 
         public void createUseCases(){
             question = new Question(questionsRepository);
-            authorization = new Authorization(authRepository);
+            authorization = new Authorization(authRepository, authOptions);
         }
     }
 }
