@@ -42,7 +42,6 @@ namespace project1.Domain.UseCases
         private string GenerateJWT(AccountModel account)
         {
             AuthTokenModel authParam = authOptions.Value;
-            System.Console.WriteLine(authParam.Secret);
             SymmetricSecurityKey securityKey = authParam.GetSymmetricSecurityKey();
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             List<Claim> claims = new List<Claim>(){
