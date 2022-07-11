@@ -31,5 +31,6 @@ namespace project1.Data
             modelBuilder.Entity<QuestionModel>();
         }
          public DbSet<QuestionModel> Question { get; set; }
+         public DbSet<AccountModel> Account { get; set; }
     }
 }

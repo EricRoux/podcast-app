@@ -17,7 +17,8 @@ namespace project1.Domain {
                 {
                     webBuilder
                         .UseConfiguration(configuration.Build())
-                        .ConfigureServices(services => services.AddSingleton<IQuestionEntity>(core.Question))
+                        .ConfigureServices(services => services.AddSingleton<IQuestionEntity>(core.question))
+                        .ConfigureServices(services => services.AddSingleton<IAuthEntity>(core.authorization))
                         .UseStartup<Startup>();
                     
                 });

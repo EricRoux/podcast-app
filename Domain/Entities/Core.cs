@@ -10,14 +10,18 @@ namespace project1.Domain.Entities
     {
         private AppDBContent appDBContent { get; }
         private IQuestion questionsRepository { get; }
-        public Question Question { get; private set; }
+        private IAuthRepository authRepository { get; }
+        public Question question { get; private set; }
+        public Authorization authorization { get; private set; }
         public Core(AppDBContent appDBContent) { 
             this.appDBContent = appDBContent;
             this.questionsRepository = new QuestionsRepository(appDBContent);
+            this.authRepository = new AuthRepository(appDBContent);
         }
 
         public void createUseCases(){
-            Question = new Question(appDBContent);
+            question = new Question(questionsRepository);
+            authorization = new Authorization(authRepository);
         }
     }
 }
