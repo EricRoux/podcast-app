@@ -1,10 +1,11 @@
 using System;
+using System.Threading.Tasks;
 using project1.Models;
 
 namespace project1.Data.Interfaces
 {
     public interface IQuestion
     {
-        void addQuestion(Question question);
+        int addQuestion(QuestionModel question);
     }
 }

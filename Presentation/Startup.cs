@@ -5,32 +5,22 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore;
-using project1.Data;
-using project1.Data.Interfaces;
-using project1.Data.Repositories;
 
-namespace project1
+namespace project1.Presentation
 {
     public class Startup
     {
-        private IConfigurationRoot dbConfigs;
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration, IWebHostEnvironment hostEnv)
         {
-            Configuration = configuration;
-            dbConfigs = new ConfigurationBuilder().SetBasePath(hostEnv.ContentRootPath).AddJsonFile("dbSettings.json").Build();
+            this.Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDBContent>(options =>
-                options.UseNpgsql(dbConfigs.GetConnectionString("DefaultConnection"))
-            );
-            services.AddTransient<IQuestion, QuestionsRepository>();
-
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -81,8 +71,6 @@ namespace project1
             
             app.UseStatusCodePages();
 
-            // app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();
@@ -91,10 +79,6 @@ namespace project1
             {
                 endpoints.MapControllers();
             });
-
-            using (IServiceScope scope = app.ApplicationServices.CreateScope()) {
-                AppDBContent content = scope.ServiceProvider.GetRequiredService<AppDBContent>();
-            }
         }
     }
 }

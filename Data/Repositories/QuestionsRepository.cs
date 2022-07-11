@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using project1.Data;
 using project1.Data.Interfaces;
 using project1.Models;
@@ -11,11 +12,12 @@ namespace project1.Data.Repositories
             this.appDBContent = appDBContent;
         }
 
-        public void addQuestion(Question question)
+        public int addQuestion(QuestionModel question)
         {
             // throw new System.NotImplementedException();
-            appDBContent.Add<Question>(question);
+            appDBContent.Add<QuestionModel>(question);
             appDBContent.SaveChanges();
+            return question.Id;
         }
     }
 }

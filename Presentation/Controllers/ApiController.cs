@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using project1.Data.Interfaces;
 using project1.Models;
+using project1.Domain.Entities;
+using project1.Presentation.Interfaces;
 
 namespace project1.Presentation.Controllers
 {
@@ -12,19 +14,19 @@ namespace project1.Presentation.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class ApiController : ControllerBase
     {
-        private readonly IQuestion _questions;
-        public ApiController(IQuestion questionInterface)
+        private readonly IQuestions questions;
+        public ApiController(IQuestions questions)
         {
-            this._questions = questionInterface;
+            this.questions = questions;
         }
 
         /// <summary>
         /// Add new question
         /// </summary>
         [HttpPost("newQuestion")]
-        public IActionResult newQuestion([FromBody] Question q){
-            _questions.addQuestion(q);
-            return Ok();
+        public IActionResult newQuestion([FromBody] QuestionModel q){
+            AddQuestionCompliteModel response = questions.AddQiestion(q);
+            return Ok(response);
         }
     }
 }

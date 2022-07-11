@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace project1.Models
 {
-    public class Question
+    public class QuestionModel
     {
         [Key]
         public int Id { get; set; }
