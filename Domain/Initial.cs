@@ -32,9 +32,6 @@ namespace project1.Domain {
                 .AddJsonFile("appsettings.Development.json", false, true)
                 .AddEnvironmentVariables();
 
-            AuthTokenModel authOptionsConnfiguration = new AuthTokenModel();
-            IOptions<AuthTokenModel> authOptions = Options.Create(authOptionsConnfiguration);
-
             AppDBContent dataBase = new AppDBContent();
             Core core = new Core(dataBase, authOptions);
             core.createUseCases();
