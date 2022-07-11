@@ -11,13 +11,13 @@ using project1.Domain.Entities;
 namespace project1.Domain {
     public class Initial {
 
-        private IHostBuilder CreateHostBuilder(string[] args, IConfigurationBuilder configuration, Questions questions) =>
+        private IHostBuilder CreateHostBuilder(string[] args, IConfigurationBuilder configuration, Core core) =>
             new HostBuilder()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
                         .UseConfiguration(configuration.Build())
-                        .ConfigureServices(services => services.AddSingleton<IQuestions>(questions))
+                        .ConfigureServices(services => services.AddSingleton<IQuestionEntity>(core.Question))
                         .UseStartup<Startup>();
                     
                 });
@@ -30,9 +30,10 @@ namespace project1.Domain {
                 .AddEnvironmentVariables();
 
             AppDBContent dataBase = new AppDBContent();
-            Questions questions = new Questions(dataBase);
+            Core core = new Core(dataBase);
+            core.createUseCases();
 
-            IHostBuilder hostBuilder = CreateHostBuilder(args, hostConf, questions);
+            IHostBuilder hostBuilder = CreateHostBuilder(args, hostConf, core);
             IHost host = hostBuilder.Build();
             host.Run();
         }        

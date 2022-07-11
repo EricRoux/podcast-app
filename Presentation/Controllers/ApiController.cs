@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using project1.Data.Interfaces;
 using project1.Models;
-using project1.Domain.Entities;
 using project1.Presentation.Interfaces;
 
 namespace project1.Presentation.Controllers
@@ -14,8 +13,8 @@ namespace project1.Presentation.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class ApiController : ControllerBase
     {
-        private readonly IQuestions questions;
-        public ApiController(IQuestions questions)
+        private readonly IQuestionEntity  questions;
+        public ApiController(IQuestionEntity questions)
         {
             this.questions = questions;
         }
@@ -25,7 +24,15 @@ namespace project1.Presentation.Controllers
         /// </summary>
         [HttpPost("newQuestion")]
         public IActionResult newQuestion([FromBody] QuestionModel q){
-            AddQuestionCompliteModel response = questions.AddQiestion(q);
+            int dbResponse = questions.AddQiestion(q);
+            bool checker = questions.Check(dbResponse).Result;
+            if(!checker){
+                return BadRequest();
+            }
+            AddQuestionCompliteModel response = new AddQuestionCompliteModel{
+                Id = dbResponse,
+                Text = "Комментарий успешно добавлен"
+            };
             return Ok(response);
         }
     }
