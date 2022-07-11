@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +30,20 @@ namespace project1.Presentation.Controllers
             }
             return Ok(new AuthResponseModel(){
                 Text = "Authorization Complite",
+            });
+        }
+
+        [Route("registration")]
+        [HttpPost]
+        public IActionResult Registration([FromBody]RegistrationModel request){
+            int status = auth.CreateAccount(request);
+            if(status >= 0){
+                return Ok(new AuthResponseModel(){
+                    Text = "Registration Faild. User already exists.",
+                });
+            }
+            return Ok(new AuthResponseModel(){
+                Text = "Registration Complite",
             });
         }
     }

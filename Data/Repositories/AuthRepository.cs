@@ -1,4 +1,3 @@
-using System;
 using project1.Data.Interfaces;
 using project1.Models;
 using System.Threading.Tasks;
@@ -15,7 +14,7 @@ namespace project1.Data.Repositories
         }
 
 
-        public Guid CreateAccount(AccountModel account)
+        public int CreateAccount(AccountModel account)
         {
             // throw new System.NotImplementedException();
             appDBContent.Add<AccountModel>(account);
@@ -24,11 +23,11 @@ namespace project1.Data.Repositories
         }
 
         public string GetPassword(AccountModel account) {
-            AccountModel user = FindAccount(account.Email);
+            AccountModel user = GetAccountByEmail(account.Email);
             return user.Password;
         }
 
-        private AccountModel FindAccount(string email) => 
+        public AccountModel GetAccountByEmail(string email) => 
             appDBContent.Account.Where(
                 acc => acc.Email == email
             )
