@@ -21,6 +21,17 @@ export class Question {
                 question.id = json.id;
                 return question;
             })
-            .then(addQuestionToLocalStorage);
+            .then(addQuestionToLocalStorage)
+            .catch((rejected: PromiseRejectedResult): void => {
+                console.log(rejected);
+                const form: HTMLFormElement = document.querySelector(".mui-form");
+                const fetchError: HTMLDivElement = document.createElement("div");
+                fetchError.innerHTML = "<p>Потеряно соединение с сервером<p>";
+                fetchError.style.color = "red";
+                form.before(fetchError);
+                setTimeout((): void => {
+                    fetchError.remove();
+                }, 3000);
+            });
     }
 }
