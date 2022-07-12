@@ -26,7 +26,7 @@ export function authWithEmailAndPassword(
     email: string, 
     password: string
 ): Promise<string> {
-    return fetch("", {
+    return fetch("http://localhost:5050/api/v1/Auth/login", {    
         method: "POST",
         body: JSON.stringify({
             email, password

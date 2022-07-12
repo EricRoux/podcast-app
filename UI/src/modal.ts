@@ -1,5 +1,6 @@
 import { createModal } from "./Utils/createModal";
 import { getAuthFormHTML, authWithEmailAndPassword } from "./auth";
+import { createErrorMessage } from "./Utils/createErrorMessage";
 
 export class Modal {
 
@@ -36,7 +37,7 @@ export class Modal {
         const password: string = (
             <HTMLInputElement>document
                 .querySelector(`.${target.className}`)
-                .querySelector("#email")
+                .querySelector("#password")
         ).value;
         
         this.closeModal(target.className);
@@ -45,6 +46,10 @@ export class Modal {
                 localStorage.setItem("authToken", token);
                 this.modalBtn.innerText = "o";
                 // reloadQuestions();
+            })
+            .catch((rejected: PromiseRejectedResult): void => {
+                console.log(rejected);
+                createErrorMessage();
             });
     }
     

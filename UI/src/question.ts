@@ -1,6 +1,7 @@
 import { IQuestion } from "./Interfaces/IQuestion";
 import { addQuestionToLocalStorage } from "./Utils/addQuestionToLocalStorage";
 import { IQuestionResponse } from "./Interfaces/IQuestionResponse";
+import { createErrorMessage } from "./Utils/createErrorMessage";
 
 export class Question {
     create(question: IQuestion): Promise<void> {
@@ -9,7 +10,7 @@ export class Question {
             body: JSON.stringify(question),
             headers: {
                 "Content-Type": "application/json"
-            }, 
+            }
         })
             .then((response: Response): Promise<IQuestionResponse> => {
                 if (response.ok) {
@@ -24,14 +25,7 @@ export class Question {
             .then(addQuestionToLocalStorage)
             .catch((rejected: PromiseRejectedResult): void => {
                 console.log(rejected);
-                const form: HTMLFormElement = document.querySelector(".mui-form");
-                const fetchError: HTMLDivElement = document.createElement("div");
-                fetchError.innerHTML = "<p>Потеряно соединение с сервером<p>";
-                fetchError.style.color = "red";
-                form.before(fetchError);
-                setTimeout((): void => {
-                    fetchError.remove();
-                }, 3000);
+                createErrorMessage();
             });
     }
 }

@@ -43,8 +43,14 @@ namespace project1.Presentation
                         return builtInFactory(context);
                     };
                 });
-            
             services.AddCors();
+            // services.AddCors(options => {
+            //     options.AddDefaultPolicy(builder => {
+            //         builder.AllowAnyOrigin()
+            //             .AllowAnyMethod()
+            //             .AllowAnyHeader();   
+            //     });
+            // });
 
             services.AddSwaggerGen(options =>
             {
