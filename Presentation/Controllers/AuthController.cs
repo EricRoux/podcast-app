@@ -20,7 +20,7 @@ namespace project1.Presentation.Controllers
         [Route("login")]
         [HttpPost]
         public IActionResult Login([FromBody]UserAuthModel request){
-            LoginResponseModel result = authEntity.CreateAccount(request);
+            LoginResponseModel result = authEntity.Login(request);
             if(result.Status != Models.Responses.StatusCode.Complete){
                 return Conflict(result);
             }
