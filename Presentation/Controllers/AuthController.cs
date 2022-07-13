@@ -38,8 +38,8 @@ namespace project1.Presentation.Controllers
         [Route("registration")]
         [HttpPost]
         public IActionResult Registration([FromBody]UserAuthModel request){
-            int status = authEntity.CreateAccount(request);
-            if(status >= 0){
+            string status = authEntity.CreateAccount(request);
+            if(status != ""){
                 return Ok(new AuthResponseModel(){
                     Text = "Registration Faild. User already exists.",
                 });

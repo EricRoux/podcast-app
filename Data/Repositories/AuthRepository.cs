@@ -2,6 +2,7 @@ using project1.Data.Interfaces;
 using project1.Models;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace project1.Data.Repositories
 {
@@ -14,7 +15,7 @@ namespace project1.Data.Repositories
         }
 
 
-        public int CreateAccount(AccountModel account)
+        public Guid CreateAccount(AccountModel account)
         {
             // throw new System.NotImplementedException();
             appDBContent.Add<AccountModel>(account);

@@ -10,5 +10,6 @@ namespace project1.Models
     {
         [Key]
         public int Id { get; set; }
+        public virtual AccountModel Account { get; set; }
     }
 }

@@ -26,17 +26,17 @@ namespace project1.Domain.UseCases
             this.authOptions = authOptions;
         }
 
-        public int CreateAccount(UserAuthModel account)
+        public string CreateAccount(UserAuthModel account)
         {
             AccountModel user = new UserAuthModelToAccountModelConvert(account).Convert();
             AccountModel status = authRepository.GetAccountByEmail(user.Email);
             if (status != null)
             {
-                return status.Id;
+                return status.Id.ToString();
             }
             // throw new Exception("Пользователь уже существует");
             authRepository.CreateAccount(user);
-            return -1;
+            return "";
         }
 
         private string GenerateJWT(AccountModel account)
