@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using project1.Models;
 
 namespace project1.Presentation
 {
@@ -57,6 +58,9 @@ namespace project1.Presentation
                 string version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "project1", Version = version });
             });
+
+            AuthTokenModel authOptions = Configuration.GetSection("Auth").Get<AuthTokenModel>();
+            services.AddSingleton(new QuestionModel());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

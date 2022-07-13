@@ -19,7 +19,7 @@ namespace project1.Data.Repositories
             return question.Id;
         }
 
-        public async Task<QuestionModel> Check(int questionId) => await appDBContent.Question.FindAsync(questionId);
+        public QuestionModel Check(int questionId) => appDBContent.Question.Find(questionId);
 
     }
 }

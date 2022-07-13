@@ -28,5 +28,11 @@ namespace project1.Data.Repositories
                 acc => acc.Email == email
             )
                 .FirstOrDefault();
+        
+        public AccountModel GetAccountByGuid(Guid id) =>
+            appDBContent.Account.Where(
+                acc => acc.Id == id
+            )
+                .FirstOrDefault();
     }
 }

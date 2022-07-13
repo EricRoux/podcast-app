@@ -23,7 +23,7 @@ namespace project1.Domain.Entities
         }
 
         public void createUseCases(){
-            question = new Question(questionsRepository);
+            question = new Question(authRepository, questionsRepository);
             authorization = new Authorization(authRepository, authOptions);
         }
     }

@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using project1.Models.FromUser;
+using project1.Models.Requests;
 
 namespace project1.Models
 {

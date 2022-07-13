@@ -1,5 +1,5 @@
 using project1.Models;
-using project1.Models.FromUser;
+using project1.Models.Requests;
 
 namespace project1.Domain.UseCases.Convert
 {

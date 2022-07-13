@@ -7,11 +7,12 @@ using project1.Presentation.Interfaces;
 using project1.Models;
 using System;
 using project1.Domain.UseCases.Convert;
-using project1.Models.FromUser;
+using project1.Models.Requests;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using project1.Models.Responses;
 
 namespace project1.Domain.UseCases
 {
@@ -26,17 +27,38 @@ namespace project1.Domain.UseCases
             this.authOptions = authOptions;
         }
 
-        public string CreateAccount(UserAuthModel account)
-        {
+        public LoginResponseModel CreateAccount(UserAuthModel account) {
+            if(!IsValidEmail(account.Email)) {
+                return new LoginResponseModel() {
+                    Status = StatusCode.Error,
+                    Message = "Email указан неправильно"
+                };
+            }
             AccountModel user = new UserAuthModelToAccountModelConvert(account).Convert();
             AccountModel status = authRepository.GetAccountByEmail(user.Email);
-            if (status != null)
-            {
-                return status.Id.ToString();
+            if (status != null) {
+                // throw new Exception("Пользователь уже существует");
+                return new LoginResponseModel() {
+                    Status = StatusCode.Error,
+                    Message = "Такой Email уже занят"
+                };
             }
-            // throw new Exception("Пользователь уже существует");
             authRepository.CreateAccount(user);
-            return "";
+            return Login(user);
+        }
+
+        private bool IsValidEmail(string email) {
+            var trimmedEmail = email.Trim();
+            if (trimmedEmail.EndsWith(".")) {
+                return false; // suggested by @TK-421
+            }
+            try {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == trimmedEmail;
+            }
+            catch {
+                return false;
+            }
         }
 
         private string GenerateJWT(AccountModel account)
@@ -60,14 +82,22 @@ namespace project1.Domain.UseCases
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public string Login(UserAuthModel account)
+        public LoginResponseModel Login(UserAuthModel account)
         {
             AccountModel dbUser = authRepository.GetAccountByEmail(account.Email);
             if (account.Password != dbUser.Password)
             {
-                return "";
+                return new LoginResponseModel() {
+                    Status = StatusCode.Error,
+                    Message = "Неправильный Email или пароль",
+                    Token = ""
+                };
             }
-            return GenerateJWT(dbUser);
+            return new LoginResponseModel() {
+                    Status = StatusCode.Complete,
+                    Message = "Авторизация успешно пройдена",
+                    Token = GenerateJWT(dbUser)
+            };
         }
 
     }

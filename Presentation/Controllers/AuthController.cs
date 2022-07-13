@@ -1,10 +1,8 @@
-using System;
-using System.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using project1.Models.ForUser;
+using project1.Models.Responses;
 using project1.Presentation.Interfaces;
-using project1.Models.FromUser;
+using project1.Models.Requests;
 
 namespace project1.Presentation.Controllers
 {
@@ -22,31 +20,21 @@ namespace project1.Presentation.Controllers
         [Route("login")]
         [HttpPost]
         public IActionResult Login([FromBody]UserAuthModel request){
-            string token = authEntity.Login(request);
-            if(token == ""){
-                return Ok(new AuthResponseModel(){
-                    Token = "",
-                    Text = "Authorization Faild",
-                });
+            LoginResponseModel result = authEntity.CreateAccount(request);
+            if(result.Status != Models.Responses.StatusCode.Complete){
+                return Conflict(result);
             }
-            return Ok(new AuthResponseModel(){
-                Token = token,
-                Text = "Authorization Complite",
-            });
+            return Ok(result);
         }
 
         [Route("registration")]
         [HttpPost]
         public IActionResult Registration([FromBody]UserAuthModel request){
-            string status = authEntity.CreateAccount(request);
-            if(status != ""){
-                return Ok(new AuthResponseModel(){
-                    Text = "Registration Faild. User already exists.",
-                });
+            LoginResponseModel result = authEntity.CreateAccount(request);
+            if(result.Status != Models.Responses.StatusCode.Complete){
+                return Conflict(result);
             }
-            return Ok(new AuthResponseModel(){
-                Text = "Registration Complite",
-            });
+            return Ok(result);
         }
     }
 }

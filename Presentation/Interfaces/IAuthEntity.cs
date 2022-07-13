@@ -1,11 +1,11 @@
-using System;
-using System.Threading.Tasks;
-using project1.Models.FromUser;
+using project1.Models.Requests;
+using project1.Models.Responses;
+
 namespace project1.Presentation.Interfaces
 {
     public interface IAuthEntity
     {
-        string CreateAccount(UserAuthModel account);
-        string Login(UserAuthModel account);
+        LoginResponseModel CreateAccount(UserAuthModel account);
+        LoginResponseModel Login(UserAuthModel account);
     }
 }

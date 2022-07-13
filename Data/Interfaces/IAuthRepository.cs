@@ -8,5 +8,6 @@ namespace project1.Data.Interfaces
     {
         Guid CreateAccount(AccountModel account);
         AccountModel GetAccountByEmail(string email);
+        AccountModel GetAccountByGuid(Guid id);
     }
 }
