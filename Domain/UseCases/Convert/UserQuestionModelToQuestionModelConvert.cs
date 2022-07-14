@@ -14,7 +14,6 @@ namespace project1.Domain.UseCases.Convert
 
         public QuestionModel Convert() {
             this.question = new QuestionModel(){
-                UserId = userQuestion.UserId,
                 Text = userQuestion.Text,
                 Date = userQuestion.Date
             };

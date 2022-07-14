@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using project1.Data.Interfaces;
 using project1.Models;
@@ -11,7 +14,7 @@ namespace project1.Data.Repositories
             this.appDBContent = appDBContent;
         }
 
-        public int addQuestion(QuestionModel question)
+        public int AddQuestion(QuestionModel question)
         {
             // throw new System.NotImplementedException();
             appDBContent.Add<QuestionModel>(question);
@@ -20,6 +23,9 @@ namespace project1.Data.Repositories
         }
 
         public QuestionModel Check(int questionId) => appDBContent.Question.Find(questionId);
+
+        public IEnumerable<QuestionModel> GetAllQuestionByUserId(Guid UserId) => 
+            appDBContent.Question.Where(q => q.Account.Id == UserId);
 
     }
 }

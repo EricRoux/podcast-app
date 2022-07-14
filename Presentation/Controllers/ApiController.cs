@@ -7,6 +7,7 @@ using project1.Presentation.Interfaces;
 using project1.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Collections.Generic;
 
 namespace project1.Presentation.Controllers
 {
@@ -23,34 +24,30 @@ namespace project1.Presentation.Controllers
             this.questions = questions;
         }
 
-        // /// <summary>
-        // /// Add new question
-        // /// </summary>
-        // [HttpPost("newQuestion")]
-        // public IActionResult newQuestion([FromBody] UserQuestionModel q){
-        //     int dbResponseId = questions.AddQiestionToId(q);
-        //     bool checker = questions.Check(dbResponseId).Result;
-        //     if(!checker){
-        //         return BadRequest();
-        //     }
-        //     AddQuestionCompliteModel response = new AddQuestionCompliteModel{
-        //         Id = dbResponseId,
-        //         Text = "Комментарий успешно добавлен"
-        //     };
-        //     return Ok(response);
-        // }
-
         /// <summary>
         /// Add new question
         /// </summary>
         [HttpPost("newQuestion")]
-        // [Authorize]
-        public IActionResult newQuestionAuth([FromBody] UserQuestionModel q){
-            QuestionResponseModel result = questions.AddQiestionToId(q);
+        [Authorize]
+        public IActionResult newQuestion([FromBody] UserQuestionModel q){
+            CreateQuestionResponseModel result = questions.AddQiestion(q, UserId);
             if(result.Status != Models.Responses.StatusCode.Complete){
                 return BadRequest(result);
             }
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Add new question
+        /// </summary>
+        [HttpGet("getQuestions")]
+        [Authorize]
+        public IActionResult getQuestions(){
+            List<QuestionResponseModel> result = questions.GetQuestions(UserId);
+            return Ok(result);
+            // if(result.Status == Models.Responses.StatusCode.Error){
+            //     return BadRequest(result);
+            // }
         }
     }
 }

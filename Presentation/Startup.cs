@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using project1.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace project1.Presentation
 {
@@ -23,6 +24,27 @@ namespace project1.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            AuthTokenModel authOptions = Configuration.GetSection("Auth").Get<AuthTokenModel>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme) 
+                .AddJwtBearer(options => {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters {
+                        ValidateIssuer = true,
+                        ValidIssuer = authOptions.Issuer,
+
+                        ValidateAudience = true,
+                        ValidAudience = authOptions.Audience,
+
+                        ValidateLifetime = true,
+
+                        IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true,
+                    };
+            });
+            
+
+
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -59,7 +81,6 @@ namespace project1.Presentation
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "project1", Version = version });
             });
 
-            AuthTokenModel authOptions = Configuration.GetSection("Auth").Get<AuthTokenModel>();
             services.AddSingleton(new QuestionModel());
         }
 
@@ -85,6 +106,7 @@ namespace project1.Presentation
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
