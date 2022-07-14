@@ -5,12 +5,13 @@ import { renderList } from "./Utils/renderList";
 import { Modal } from "./modal";
 import "./styles.scss";
 
-const form: HTMLElement = document.querySelector("#form");
+const form: Element = document.querySelector("#form");
 const input: HTMLInputElement = form.querySelector("#question-input");
 const submitBtn: HTMLButtonElement = form.querySelector("#submit");
 const modalBtn: HTMLButtonElement = document.body.querySelector("#modal-btn");
+const question = new Question();
 
-function submitFormHandler(event: Event): void {
+function submitFormHandler(event: Event, question: Question): void {
     event.preventDefault(); // Не перезагружать страницу
     if (isValidInput(input.value)) {
         const questionData: IQuestion = {
@@ -19,7 +20,6 @@ function submitFormHandler(event: Event): void {
         };
 
         submitBtn.disabled = true;
-        const question = new Question();
         question.create(questionData)
             .then((): void => {
                 input.value = "";
@@ -33,8 +33,12 @@ function imputChanged(): void {
     submitBtn.disabled = !isValidInput(input.value);
 }
 
-const modalHTML: Modal = new Modal(modalBtn);
+function handlerFun(event: Event): void{ 
+    submitFormHandler(event, question); 
+}
+
+const modalHTML: Modal = new Modal(modalBtn, question);
 modalHTML.createBtnEvents();
+form.addEventListener("submit", handlerFun);
 window.addEventListener("load", renderList);
-form.addEventListener("submit", submitFormHandler);
 input.addEventListener("input", imputChanged);

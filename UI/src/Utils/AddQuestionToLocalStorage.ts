@@ -1,7 +1,7 @@
 import { IQuestion } from "../Interfaces/IQuestion";
 import { getQuestionFromLocalStorage } from "./getQuestionFromLocalStorage";
 
-export function addQuestionToLocalStorage(question: IQuestion): void {
+export function AddQuestionToLocalStorage(question: IQuestion): void {
     const allQuestion: IQuestion[] = getQuestionFromLocalStorage();
     allQuestion.push(question);
     const allQuestionToString: string = JSON.stringify(allQuestion);
