@@ -26,7 +26,7 @@ namespace project1.Domain.UseCases
         private CreateQuestionResponseModel sendQuestionToDb(QuestionModel question){
             int questionId = questionsRepository.AddQuestion(question);
             if(IsQiestionCreated(questionId)){
-                return ReturnCompleteCreateQuestion();
+                return ReturnCompleteCreateQuestion(question);
             }
             return ReturnErrorCreateQuestion();
         }
@@ -37,18 +37,26 @@ namespace project1.Domain.UseCases
                     Message = "Произошла ошибка при записи вопроса"
                 };
 
-        private CreateQuestionResponseModel ReturnCompleteCreateQuestion() =>
+        private CreateQuestionResponseModel ReturnCompleteCreateQuestion(QuestionModel question) =>
             new CreateQuestionResponseModel() {
+                    Id = question.Id,
+                    Date = question.Date,
                     Status = StatusCode.Complete,
-                    Message = "Вопос успешно добавлен"
+                    Message = "Вопрос успешно добавлен"
                     
                 };
         
-        public List<QuestionResponseModel> GetQuestions(Guid UserId) => 
-            new ListQuestionModelToGetQuestionResponseModelConvert(
+        public GetQuestionResponseListModel GetQuestions(Guid UserId) {
+            List<QuestionResponseModel> list = new ListQuestionModelToGetQuestionResponseModelConvert(
                 questionsRepository.GetAllQuestionByUserId(UserId)
             )
                 .Convert();
+            return new GetQuestionResponseListModel() {
+                List = list,
+                Email = authRepository.GetAccountByGuid(UserId).Email,
+                Status = StatusCode.Complete
+            };
+        }
 
         private AccountModel FindUser(Guid UserId){
             return authRepository.GetAccountByGuid(UserId);

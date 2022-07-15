@@ -43,7 +43,7 @@ namespace project1.Presentation.Controllers
         [HttpGet("getQuestions")]
         [Authorize]
         public IActionResult getQuestions(){
-            List<QuestionResponseModel> result = questions.GetQuestions(UserId);
+            GetQuestionResponseListModel result = questions.GetQuestions(UserId);
             return Ok(result);
             // if(result.Status == Models.Responses.StatusCode.Error){
             //     return BadRequest(result);

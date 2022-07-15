@@ -85,20 +85,26 @@ namespace project1.Domain.UseCases
         public LoginResponseModel Login(UserAuthModel account)
         {
             AccountModel dbUser = authRepository.GetAccountByEmail(account.Email);
-            if (account.Password != dbUser.Password)
+            if (dbUser == null || account.Password != dbUser.Password)
             {
-                return new LoginResponseModel() {
-                    Status = StatusCode.Error,
-                    Message = "Неправильный Email или пароль",
-                    Token = ""
-                };
+                return ErrorLoginResponse();
             }
-            return new LoginResponseModel() {
-                    Status = StatusCode.Complete,
-                    Message = "Авторизация успешно пройдена",
-                    Token = GenerateJWT(dbUser)
-            };
+            return CompleteLoginResponse(dbUser);
         }
+
+        private LoginResponseModel CompleteLoginResponse(AccountModel dbUser) =>
+            new LoginResponseModel() {
+                Status = StatusCode.Complete,
+                Message = "Авторизация успешно пройдена",
+                Token = GenerateJWT(dbUser)
+            };
+        
+        private LoginResponseModel ErrorLoginResponse() =>
+            new LoginResponseModel() {
+                Status = StatusCode.Error,
+                Message = "Неправильный Email или пароль",
+                Token = ""
+            };
 
     }
 }

@@ -8,6 +8,6 @@ namespace project1.Presentation.Interfaces
     public interface IQuestionEntity
     {
         CreateQuestionResponseModel AddQiestion(UserQuestionModel q, Guid UserId);
-        List<QuestionResponseModel> GetQuestions(Guid UserId);
+        GetQuestionResponseListModel GetQuestions(Guid UserId);
     }
 }

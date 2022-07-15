@@ -13,6 +13,7 @@ namespace project1.Domain.UseCases.Convert
 
         public QuestionResponseModel Convert() =>
             new QuestionResponseModel() {
+                Id = question.Id,
                 Text = question.Text,
                 Date = question.Date
             };
