@@ -1,11 +1,13 @@
-import { IQuestion } from "../Interfaces/IQuestion";
-import { getQuestionFromLocalStorage } from "./getQuestionFromLocalStorage";
+import { IQuestion, IQuestions } from "../Interfaces/IQuestion";
+import { getQuestionsFromLocalStorage } from "./getQuestionsFromLocalStorage";
 
-function toCard(question: IQuestion): string {
+function toCard(question: IQuestion, email: string): string {
     return `
     <div class="mui--text-black-54">
-      ${new Date(question.date).toLocaleDateString()}
-      ${new Date(question.date).toLocaleTimeString()}
+        #${question.id}
+        ${new Date(question.date).toLocaleTimeString()}
+        ${new Date(question.date).toLocaleDateString()}
+        from ${email}
     </div>
     <div>${question.text}</div>
     <br>
@@ -13,10 +15,13 @@ function toCard(question: IQuestion): string {
 }
 
 export function renderList(): void {
-    const questios = getQuestionFromLocalStorage();
-    const html: string = questios.length
-        ? questios.map(toCard).join("")
-        : "<div class=\"mui--text-black-54 mui--text-body2\">Вы пока не задавали вопросов</div>";
+    const questions: IQuestions = getQuestionsFromLocalStorage();
+    const questionList: Array<IQuestion> = questions.list;
+    const html: string = questionList.length
+        ? questionList.map((q: IQuestion): string => toCard(q, questions.email)).join("")
+        : `<div class="mui--text-black-54 mui--text-body2">
+            Вы пока не задавали вопросов
+        </div>`;
     const list: HTMLElement = document.querySelector("#list");
     list.innerHTML = html;
 }

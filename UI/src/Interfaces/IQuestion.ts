@@ -3,3 +3,8 @@ export interface IQuestion {
     text: string,
     date: string,
 }
+export interface IQuestions {
+    list: IQuestion[],
+    email: string,
+    status?: number
+}

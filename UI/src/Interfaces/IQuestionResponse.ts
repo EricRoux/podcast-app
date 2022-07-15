@@ -1,4 +1,6 @@
 export interface IQuestionResponse {
     id: number,
-    text: string
+    message: string
+    data: string,
+    status: number
 }

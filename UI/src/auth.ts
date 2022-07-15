@@ -6,11 +6,11 @@ function AuthFormHTML(): string {
     <form class="mui-form" id="auth-form">
         <div class="mui-textfield">
             <input type="email" id="authEmail" required>
-            <label for="email">Email</label>
+            <label for="authEmail">Email</label>
         </div>
         <div class="mui-textfield">
             <input type="password" id="authPassword" required>
-            <label for="password">Пароль</label>
+            <label for="authPassword">Пароль</label>
         </div>
         <button 
             type="submit" 
@@ -27,7 +27,7 @@ function regFormHTML(): string {
     <form class="mui-form">
         <div class="mui-textfield">
             <input type="email" id="regEmail" required>
-            <label for="email">Email</label>
+            <label for="regEmail">Email</label>
         </div>
         <div class="mui-textfield">
             <input type="password" id="regPassword1" required>
@@ -73,6 +73,8 @@ export function authWithEmailAndPassword(
     })
         .then((response: Response): Promise<IAuthResponse> => response.json())
         .then((data: IAuthResponse): string => {
-            return data.token;
+            if(data.status == 1)
+                return data.token;
+            throw new Error("Something went wrong");
         });
 }

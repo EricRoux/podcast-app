@@ -1,6 +1,6 @@
-import { IQuestion } from "./Interfaces/IQuestion";
-import { AddQuestionToLocalStorage } from "./Utils/AddQuestionToLocalStorage";
+import { IQuestion, IQuestions } from "./Interfaces/IQuestion";
 import { IQuestionResponse } from "./Interfaces/IQuestionResponse";
+import { AddQuestionToLocalStorage } from "./Utils/AddQuestionToLocalStorage";
 import { createErrorMessage } from "./Utils/createErrorMessage";
 
 export class Question {
@@ -9,6 +9,7 @@ export class Question {
             method: "POST",
             body: JSON.stringify(question),
             headers: {
+                "Authorization": "Bearer " + localStorage.getItem("bearer"),
                 "Content-Type": "application/json"
             }
         })
@@ -18,32 +19,29 @@ export class Question {
                 }
                 throw new Error("Something went wrong");
             })
-            .then((json: IQuestionResponse): void => { //IQuestion => {
-                question.id = json.id;
-                // return question;
+            .then((questionResponse: IQuestionResponse): IQuestion => {
+                question.id = questionResponse.id;
+                return question;
             })
-            // .then()
+            .then(AddQuestionToLocalStorage)
             .catch((rejected: PromiseRejectedResult): void => {
                 console.log(rejected);
                 createErrorMessage();
             });
     }
-    fetch(token: string): Promise<void> {
-        return fetch("http://localhost:5050/api/v1/newQuestion", {
-            method: "POST",
+    fetch(): Promise<IQuestions> {
+        return fetch("http://localhost:5050/api/v1/getQuestions", {
+            method: "GET",
             headers: {
-                "Authorization": "Bearer " + token,
+                "Authorization": "Bearer " + localStorage.getItem("bearer"),
                 "Content-Type": "application/json"
             }
         })
-            .then((response: Response): Promise<string> => response.json())
-            .then((questions: string): void => {
-                console.log(token);
-                console.log(questions);
-            })
-            .catch((rejected: PromiseRejectedResult): void => {
-                console.log(rejected);
-                createErrorMessage();
-            }); 
+            .then((response: Response): Promise<IQuestions> => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error("Something went wrong");
+            });
     }
 }

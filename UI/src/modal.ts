@@ -3,6 +3,9 @@ import { getAuthFormHTML, authWithEmailAndPassword } from "./auth";
 import { createErrorMessage } from "./Utils/createErrorMessage";
 import { IUserAuth } from "./Interfaces/IUserAuth";
 import { Question } from "./question";
+import { IQuestion, IQuestions } from "./Interfaces/IQuestion";
+import { AddQuestionToLocalStorage } from "./Utils/AddQuestionToLocalStorage";
+import { renderList } from "./Utils/renderList";
 
 export class Modal {
 
@@ -26,8 +29,9 @@ export class Modal {
         createModal(className, "Авторизация", getAuthFormHTML());
     }
     
-    private closeModal(className: string): void {
-        document.querySelector(`.${className}`).remove();
+    private closeModal(): void {
+        document.querySelector(`.${this.modalClass}`).remove();
+        this.modalBtn.innerText = "+";
     }
     
     private authFormHandler(event: Event): void {
@@ -37,28 +41,36 @@ export class Modal {
             email: (
                 <HTMLInputElement>document
                     .querySelector(`.${target.className}`)
-                    .querySelector("#email")
+                    .querySelector("#authEmail")
             ).value,
         
             password: (
                 <HTMLInputElement>document
                     .querySelector(`.${target.className}`)
-                    .querySelector("#password")
+                    .querySelector("#authPassword")
             ).value,
         };
         
-        this.closeModal(target.className);
+        this.closeModal();
         authWithEmailAndPassword(userAuth)
-            .then((token: string): Promise<void> => {
-                localStorage.setItem("authToken", token);
-                this.modalBtn.innerText = "o";
-                return this.question.fetch(token);
-                // reloadQuestions();
+            .then((token: string): Promise<IQuestions> => {
+                localStorage.setItem("bearer", token);
+                localStorage.setItem("email", userAuth.email);
+                localStorage.removeItem("questions");
+                // this.modalBtn.innerText = "o";
+                return this.question.fetch();
             })
+            .then((questions: IQuestions): void => {
+                if(questions.status == 0) return; 
+                questions.list.forEach((question: IQuestion): void => {
+                    AddQuestionToLocalStorage(question);
+                });
+            })
+            .then(renderList)
             .catch((rejected: PromiseRejectedResult): void => {
                 console.log(rejected);
                 createErrorMessage();
-                this.closeModal(this.modalClass);
+                this.closeModal();
             });
     }
     
@@ -73,11 +85,11 @@ export class Modal {
             this.openModal(this.modalClass);
             this.modalBtn.innerText = "-";
         } else if(this.modalBtn.innerText == "-") {
-            this.closeModal(this.modalClass);
+            this.closeModal();
             this.modalBtn.innerText = "+";
         } else {
-            this.closeModal(this.modalClass);
-            // reloadQuestions();
+            this.closeModal();
+            this.question.fetch();
         }
         this.modalEvents(this.modalClass);
     }
