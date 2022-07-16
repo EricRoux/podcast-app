@@ -23,6 +23,8 @@ namespace project1.Domain.UseCases
         public UserResponseModel CreateAccount(UserAuthModel account) {
             if(!IsExistEmail(account.Email))
                 return ErrorLoginResponse("Email указан неправильно, либо уже занят");
+            if(account.Password.Length <= 5)
+                return ErrorLoginResponse("Пароль слишком маленький");
             DbAccountModel user = new UserAuthModelToAccountModelConvert(account).Convert();
             user = authRepository.CreateAccount(user);
             return Login(user);
