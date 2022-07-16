@@ -1,13 +1,13 @@
-import { IQuestion, IQuestions } from "../Interfaces/IQuestion";
+import { IQuestion } from "../Interfaces/IQuestion";
 import { getQuestionsFromLocalStorage } from "./getQuestionsFromLocalStorage";
 
-function toCard(question: IQuestion, email: string): string {
+function toCard(num: number, question: IQuestion): string {
     return `
     <div class="mui--text-black-54">
-        #${question.id}
+        #${num+1}
         ${new Date(question.date).toLocaleTimeString()}
         ${new Date(question.date).toLocaleDateString()}
-        from ${email}
+        from ${question.email}
     </div>
     <div>${question.text}</div>
     <br>
@@ -15,10 +15,12 @@ function toCard(question: IQuestion, email: string): string {
 }
 
 export function renderList(): void {
-    const questions: IQuestions = getQuestionsFromLocalStorage();
-    const questionList: Array<IQuestion> = questions.list;
-    const html: string = questionList.length
-        ? questionList.map((q: IQuestion): string => toCard(q, questions.email)).join("")
+    const questions: IQuestion[] = getQuestionsFromLocalStorage();
+    if(!questions) return;
+    const html: string = questions.length
+        ? questions.map(
+            (q: IQuestion, index: number): string => toCard(index, q)
+        ).join("")
         : `<div class="mui--text-black-54 mui--text-body2">
             Вы пока не задавали вопросов
         </div>`;

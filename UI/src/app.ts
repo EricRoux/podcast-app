@@ -1,7 +1,8 @@
 import { isValidInput } from "./Utils/isValidInput";
-import { IQuestion } from "./Interfaces/IQuestion";
-import { Question } from "./question";
+import { IQuestionRequest } from "./Interfaces/IQuestion";
+import { createQuestion } from "./question";
 import { renderList } from "./Utils/renderList";
+import { createErrorMessage } from "./Utils/createErrorMessage";
 import { Modal } from "./modal";
 import "./styles.scss";
 
@@ -9,18 +10,18 @@ const form: Element = document.querySelector("#form");
 const input: HTMLInputElement = form.querySelector("#question-input");
 const submitBtn: HTMLButtonElement = form.querySelector("#submit");
 const modalBtn: HTMLButtonElement = document.body.querySelector("#modal-btn");
-const question = new Question();
 
-function submitFormHandler(event: Event, question: Question): void {
+
+function submitFormHandler(event: Event): void {
     event.preventDefault(); // Не перезагружать страницу
     if (isValidInput(input.value)) {
-        const questionData: IQuestion = {
+        const questionData: IQuestionRequest = {
             text: input.value.trim(),
             date: new Date().toJSON(),
         };
 
         submitBtn.disabled = true;
-        question.create(questionData)
+        createQuestion(questionData)
             .then((): void => {
                 input.value = "";
                 input.className = "";
@@ -30,15 +31,16 @@ function submitFormHandler(event: Event, question: Question): void {
 }
 
 function imputChanged(): void {
-    submitBtn.disabled = !isValidInput(input.value);
+    if(localStorage.getItem("bearer"))
+        submitBtn.disabled = !isValidInput(input.value);
+    else if(input.value != ""){
+        submitBtn.disabled = true;
+        createErrorMessage("Сначала авторизуйтесь");
+    }
 }
 
-function handlerFun(event: Event): void{ 
-    submitFormHandler(event, question); 
-}
-
-const modalHTML: Modal = new Modal(modalBtn, question);
+const modalHTML: Modal = new Modal(modalBtn);
 modalHTML.createBtnEvents();
-form.addEventListener("submit", handlerFun);
+form.addEventListener("submit", submitFormHandler);
 window.addEventListener("load", renderList);
 input.addEventListener("input", imputChanged);

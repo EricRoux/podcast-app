@@ -1,5 +1,6 @@
 import { IAuthResponse } from "./Interfaces/IAuthResponse";
 import { IUserAuth } from "./Interfaces/IUserAuth";
+import { createErrorMessage } from "./Utils/createErrorMessage";
 
 function AuthFormHTML(): string {
     return `
@@ -13,7 +14,8 @@ function AuthFormHTML(): string {
             <label for="authPassword">Пароль</label>
         </div>
         <button 
-            type="submit" 
+            type="submit"
+            id="authSubmit"
             class="mui-btn mui-btn--raised mui-btn--primary"
         >
             Войти
@@ -39,6 +41,7 @@ function regFormHTML(): string {
         </div>
         <button 
             type="submit" 
+            id="regSubmit"
             class="mui-btn mui-btn--raised mui-btn--primary"
         >
             Зарегистрироваться
@@ -75,6 +78,29 @@ export function authWithEmailAndPassword(
         .then((data: IAuthResponse): string => {
             if(data.status == 1)
                 return data.token;
+            else
+                createErrorMessage(data.message);
             throw new Error("Something went wrong");
+        });
+}
+
+
+export function regWithEmailAndPassword(
+    userAuth: IUserAuth
+): Promise<string> {
+    return fetch("http://localhost:5050/api/v1/Auth/registration", {    
+        method: "POST",
+        body: JSON.stringify(userAuth),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then((response: Response): Promise<IAuthResponse> => response.json())
+        .then((data: IAuthResponse): string => {
+            if(data.status == 1)
+                return data.token;
+            else
+                createErrorMessage(data.message);
+            throw new Error(data.message);
         });
 }

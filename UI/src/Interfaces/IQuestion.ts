@@ -1,10 +1,15 @@
+export interface IQuestionRequest {
+    text: string,
+    date: string
+}
 export interface IQuestion {
-    id?: number,
+    id: number,
     text: string,
     date: string,
+    email: string
 }
 export interface IQuestions {
-    list: IQuestion[],
-    email: string,
-    status?: number
+    status: number,
+    questions: IQuestion[],
+    message: string
 }

@@ -2,7 +2,7 @@ import { createModal } from "./Utils/createModal";
 import { getAuthFormHTML, authWithEmailAndPassword } from "./auth";
 import { createErrorMessage } from "./Utils/createErrorMessage";
 import { IUserAuth } from "./Interfaces/IUserAuth";
-import { Question } from "./question";
+import { getQuestions } from "./question";
 import { IQuestion, IQuestions } from "./Interfaces/IQuestion";
 import { AddQuestionToLocalStorage } from "./Utils/AddQuestionToLocalStorage";
 import { renderList } from "./Utils/renderList";
@@ -11,11 +11,9 @@ export class Modal {
 
     private modalBtn: HTMLButtonElement;
     private modalClass: string = "modal";
-    private question: Question;
 
-    constructor(modalBtn: HTMLButtonElement, question: Question) {
+    constructor(modalBtn: HTMLButtonElement) {
         this.modalBtn = modalBtn;
-        this.question = question;
         
         this.createBtnEvents = this.createBtnEvents.bind(this);
         this.modal = this.modal.bind(this);
@@ -23,10 +21,6 @@ export class Modal {
         this.closeModal = this.closeModal.bind(this);
         this.modalEvents = this.modalEvents.bind(this);
         this.authFormHandler = this.authFormHandler.bind(this);
-    }
-
-    private openModal(className: string): void {
-        createModal(className, "Авторизация", getAuthFormHTML());
     }
     
     private closeModal(): void {
@@ -55,29 +49,36 @@ export class Modal {
         authWithEmailAndPassword(userAuth)
             .then((token: string): Promise<IQuestions> => {
                 localStorage.setItem("bearer", token);
-                localStorage.setItem("email", userAuth.email);
                 localStorage.removeItem("questions");
                 // this.modalBtn.innerText = "o";
-                return this.question.fetch();
+                return getQuestions();
             })
-            .then((questions: IQuestions): void => {
-                if(questions.status == 0) return; 
-                questions.list.forEach((question: IQuestion): void => {
+            .then((json: IQuestions): void => {
+                if(json.status == 0) console.log(json.message); 
+                json.questions.forEach((question: IQuestion): void => {
                     AddQuestionToLocalStorage(question);
                 });
             })
             .then(renderList)
             .catch((rejected: PromiseRejectedResult): void => {
                 console.log(rejected);
-                createErrorMessage();
-                this.closeModal();
+                createErrorMessage("Потеряно соединение с сервером");
             });
     }
     
-    private modalEvents(className: string): void {
-        const modal = document.querySelector(`.${className}`);
-        modal.addEventListener("submit", this.authFormHandler, {once: true});
-        modal.className = className;
+    private modalEvents(): void {
+        const modal = document.querySelector("#auth-form");
+        modal.addEventListener("submit", this.authFormHandler);
+        // modal.addEventListener(
+        //      "#regSubmit", 
+        //      this.authFormHandler
+        // );
+        // modal.className = className;
+    }
+
+    private openModal(className: string): void {
+        createModal(className, "Авторизация", getAuthFormHTML());
+        this.modalEvents();
     }
     
     private modal(): void {
@@ -89,9 +90,8 @@ export class Modal {
             this.modalBtn.innerText = "+";
         } else {
             this.closeModal();
-            this.question.fetch();
+            // getQuestions();
         }
-        this.modalEvents(this.modalClass);
     }
 
     createBtnEvents(): void {
