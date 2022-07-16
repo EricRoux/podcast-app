@@ -14,18 +14,29 @@ namespace project1.Data.Repositories
             this.appDBContent = appDBContent;
         }
 
-        public int AddQuestion(QuestionModel question)
+        public DbQuestionModel AddQuestion(DbQuestionModel question)
         {
             // throw new System.NotImplementedException();
-            appDBContent.Add<QuestionModel>(question);
+            appDBContent.Add<DbQuestionModel>(question);
             appDBContent.SaveChanges();
-            return question.Id;
+            return question;
         }
 
-        public QuestionModel Check(int questionId) => appDBContent.Question.Find(questionId);
+        public DbQuestionModel Check(int questionId) => appDBContent.Question.Find(questionId);
 
-        public IEnumerable<QuestionModel> GetAllQuestionByUserId(Guid UserId) => 
-            appDBContent.Question.Where(q => q.Account.Id == UserId);
+        public IEnumerable<QuestionModel> GetAllQuestionByUserGuid(Guid UserGuid) => 
+            appDBContent.Question
+                .Where(q => q.User.Guid == UserGuid)
+                .Join<DbQuestionModel, DbAccountModel, Guid, QuestionModel>(appDBContent.Account, 
+                    q => q.UserGuid, 
+                    u => u.Guid,
+                    (q, u) => new QuestionModel() {
+                        Id = q.Id,
+                        Email = u.Email,
+                        Text = q.Text,
+                        Date = q.Date
+                    }
+                );
 
     }
 }

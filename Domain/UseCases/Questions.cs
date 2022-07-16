@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using project1.Models;
 using project1.Data.Interfaces;
@@ -17,54 +18,50 @@ namespace project1.Domain.UseCases
             this.questionsRepository = questionsRepository;
             this.authRepository = authRepository;
         }
-        public CreateQuestionResponseModel AddQiestion(UserQuestionModel q, Guid UserId) {
-            QuestionModel question = new UserQuestionModelToQuestionModelConvert(q).Convert();
-            question.Account = FindUser(UserId);
+        public QuestionsResponseModel AddQiestion(UserQuestionModel q, Guid UserGuid) {
+            DbAccountModel user = FindUser(UserGuid);
+            DbQuestionModel question = new UserQuestionModelToDbQuestionModelConvert(q, user).Convert();
             return  sendQuestionToDb(question);
         }
 
-        private CreateQuestionResponseModel sendQuestionToDb(QuestionModel question){
-            int questionId = questionsRepository.AddQuestion(question);
-            if(IsQiestionCreated(questionId)){
-                return ReturnCompleteCreateQuestion(question);
+        private QuestionsResponseModel sendQuestionToDb(DbQuestionModel question){
+            DbQuestionModel dbQuestion = questionsRepository.AddQuestion(question);
+            if(IsQiestionCreated(dbQuestion)){
+                return CreateCompliteQuestionResponse(dbQuestion);
             }
-            return ReturnErrorCreateQuestion();
+            return ErrorResponseQuestion();
         }
 
-        private CreateQuestionResponseModel ReturnErrorCreateQuestion() =>
-            new CreateQuestionResponseModel() {
+        private QuestionsResponseModel ErrorResponseQuestion() =>
+            new QuestionsResponseModel() {
                     Status = StatusCode.Error,
                     Message = "Произошла ошибка при записи вопроса"
                 };
 
-        private CreateQuestionResponseModel ReturnCompleteCreateQuestion(QuestionModel question) =>
-            new CreateQuestionResponseModel() {
-                    Id = question.Id,
-                    Date = question.Date,
-                    Status = StatusCode.Complete,
-                    Message = "Вопрос успешно добавлен"
-                    
-                };
-        
-        public GetQuestionResponseListModel GetQuestions(Guid UserId) {
-            List<QuestionResponseModel> list = new ListQuestionModelToGetQuestionResponseModelConvert(
-                questionsRepository.GetAllQuestionByUserId(UserId)
-            )
-                .Convert();
-            return new GetQuestionResponseListModel() {
-                List = list,
-                Email = authRepository.GetAccountByGuid(UserId).Email,
-                Status = StatusCode.Complete
-            };
+        private QuestionsResponseModel CreateCompliteQuestionResponse(DbQuestionModel question) {
+            List<QuestionModel> questionsList = new DbQuestionModelToQuestionModelConvert(question).Convert();
+            return CompleteQuestionResponse(questionsList);
         }
 
-        private AccountModel FindUser(Guid UserId){
+        private QuestionsResponseModel CompleteQuestionResponse(List<QuestionModel> questionsList) =>
+            new QuestionsResponseModel() {
+                Status = StatusCode.Complete,
+                Message = "Вопрос успешно добавлен",
+                Questions = questionsList
+            };
+        
+        public QuestionsResponseModel GetQuestions(Guid UserGuid) {
+            List<QuestionModel> questionsList = questionsRepository.GetAllQuestionByUserGuid(UserGuid).ToList();
+            return CompleteQuestionResponse(questionsList);
+        }
+
+        private DbAccountModel FindUser(Guid UserId){
             return authRepository.GetAccountByGuid(UserId);
         }
 
-        private bool IsQiestionCreated(int questionId) {
-            QuestionModel chekcedQuestion = questionsRepository.Check(questionId);
-            return chekcedQuestion.Id == questionId;
+        private bool IsQiestionCreated(DbQuestionModel question) {
+            DbQuestionModel chekcedQuestion = questionsRepository.Check(question.Id);
+            return chekcedQuestion.Id == question.Id;
         }
     }
 }

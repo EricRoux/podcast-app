@@ -15,23 +15,23 @@ namespace project1.Data.Repositories
         }
 
 
-        public Guid CreateAccount(AccountModel account)
+        public DbAccountModel CreateAccount(DbAccountModel account)
         {
             // throw new System.NotImplementedException();
-            appDBContent.Add<AccountModel>(account);
+            appDBContent.Add<DbAccountModel>(account);
             appDBContent.SaveChanges();
-            return account.Id;
+            return account;
         }
 
-        public AccountModel GetAccountByEmail(string email) => 
+        public DbAccountModel GetAccountByEmail(string email) => 
             appDBContent.Account.Where(
                 acc => acc.Email == email
             )
                 .FirstOrDefault();
         
-        public AccountModel GetAccountByGuid(Guid id) =>
+        public DbAccountModel GetAccountByGuid(Guid guid) =>
             appDBContent.Account.Where(
-                acc => acc.Id == id
+                acc => acc.Guid == guid
             )
                 .FirstOrDefault();
     }

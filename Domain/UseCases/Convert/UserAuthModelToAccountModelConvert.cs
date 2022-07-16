@@ -1,3 +1,4 @@
+using System;
 using project1.Models;
 using project1.Models.Requests;
 
@@ -5,17 +6,18 @@ namespace project1.Domain.UseCases.Convert
 {
     public class UserAuthModelToAccountModelConvert
     {
-        private UserAuthModel regAccount { get; set; }
-        private AccountModel account { get; set; }
-        public UserAuthModelToAccountModelConvert(UserAuthModel regAccount)
+        private UserAuthModel userAuth { get; set; }
+        private DbAccountModel account { get; set; }
+        public UserAuthModelToAccountModelConvert(UserAuthModel userAuth)
         {
-            this.regAccount =  regAccount;
+            this.userAuth =  userAuth;
         }
 
-        public AccountModel Convert() {
-            this.account = new AccountModel(){
-                Email = regAccount.Email,
-                Password = regAccount.Password,
+        public DbAccountModel Convert() {
+            this.account = new DbAccountModel(){
+                Email = userAuth.Email,
+                Password = userAuth.Password,
+                Guid = Guid.NewGuid(),
                 Role = Role.User
             };
             return this.account;

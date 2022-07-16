@@ -30,7 +30,7 @@ namespace project1.Presentation.Controllers
         [HttpPost("newQuestion")]
         [Authorize]
         public IActionResult newQuestion([FromBody] UserQuestionModel q){
-            CreateQuestionResponseModel result = questions.AddQiestion(q, UserId);
+            QuestionsResponseModel result = questions.AddQiestion(q, UserId);
             if(result.Status != Models.Responses.StatusCode.Complete){
                 return BadRequest(result);
             }
@@ -43,11 +43,11 @@ namespace project1.Presentation.Controllers
         [HttpGet("getQuestions")]
         [Authorize]
         public IActionResult getQuestions(){
-            GetQuestionResponseListModel result = questions.GetQuestions(UserId);
+            QuestionsResponseModel result = questions.GetQuestions(UserId);
+            if(result.Status == Models.Responses.StatusCode.Error){
+                return BadRequest(result);
+            }
             return Ok(result);
-            // if(result.Status == Models.Responses.StatusCode.Error){
-            //     return BadRequest(result);
-            // }
         }
     }
 }

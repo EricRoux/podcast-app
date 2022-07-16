@@ -5,11 +5,9 @@ using project1.Models.Requests;
 
 namespace project1.Models
 {
-    [Table("Questions", Schema = "Questions")]
     public class QuestionModel : UserQuestionModel
     {
-        [Key]
         public int Id { get; set; }
-        public virtual AccountModel Account { get; set; }
+        public string Email { get; set; }
     }
 }

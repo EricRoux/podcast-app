@@ -6,8 +6,8 @@ namespace project1.Data.Interfaces
 {
     public interface IAuthRepository
     {
-        Guid CreateAccount(AccountModel account);
-        AccountModel GetAccountByEmail(string email);
-        AccountModel GetAccountByGuid(Guid id);
+        DbAccountModel CreateAccount(DbAccountModel account);
+        DbAccountModel GetAccountByEmail(string email);
+        DbAccountModel GetAccountByGuid(Guid id);
     }
 }

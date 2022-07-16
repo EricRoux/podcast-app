@@ -28,9 +28,10 @@ namespace project1.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("Questions");
-            modelBuilder.Entity<QuestionModel>();
+            modelBuilder.Entity<DbQuestionModel>();
+                // .HasKey(q => new { q.Id, q.User });
         }
-         public DbSet<QuestionModel> Question { get; set; }
-         public DbSet<AccountModel> Account { get; set; }
+        public DbSet<DbAccountModel> Account { get; set; }
+        public DbSet<DbQuestionModel> Question { get; set; }
     }
 }

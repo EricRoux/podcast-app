@@ -5,7 +5,7 @@ namespace project1.Presentation.Interfaces
 {
     public interface IAuthEntity
     {
-        LoginResponseModel CreateAccount(UserAuthModel account);
-        LoginResponseModel Login(UserAuthModel account);
+        UserResponseModel CreateAccount(UserAuthModel account);
+        UserResponseModel Login(UserAuthModel account);
     }
 }

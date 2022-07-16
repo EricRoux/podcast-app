@@ -7,15 +7,13 @@ using System.Collections.Generic;
 namespace project1.Models
 {
     [Table("Users", Schema = "Questions")]
-    public class AccountModel : UserAuthModel
+    public class DbAccountModel : UserAuthModel
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid Guid { get; set; }
 
         [Required]
         public Role Role { get; set; } = Role.User;
-
-        public List<QuestionModel> questions { get; set; }
 
     }
 

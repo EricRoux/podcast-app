@@ -20,7 +20,7 @@ namespace project1.Presentation.Controllers
         [Route("login")]
         [HttpPost]
         public IActionResult Login([FromBody]UserAuthModel request){
-            LoginResponseModel result = authEntity.Login(request);
+            UserResponseModel result = authEntity.Login(request);
             if(result.Status != Models.Responses.StatusCode.Complete){
                 return Conflict(result);
             }
@@ -30,7 +30,7 @@ namespace project1.Presentation.Controllers
         [Route("registration")]
         [HttpPost]
         public IActionResult Registration([FromBody]UserAuthModel request){
-            LoginResponseModel result = authEntity.CreateAccount(request);
+            UserResponseModel result = authEntity.CreateAccount(request);
             if(result.Status != Models.Responses.StatusCode.Complete){
                 return Conflict(result);
             }
