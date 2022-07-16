@@ -65,7 +65,7 @@ body {
         .modal-form {
             max-width: 600px;
             min-width: 265px;
-            max-height: 400px;
+            max-height: 600px;
             min-height: 200px;
             background-color: #f3ecec;
             margin: 100px auto;
@@ -76,6 +76,10 @@ body {
             }
             .model-content  {
                 margin: 1rem;
+            }
+            .buttons{
+                display: flex;
+                justify-content: space-between;
             }
         }
     }

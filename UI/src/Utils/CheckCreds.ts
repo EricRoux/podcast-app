@@ -1,12 +1,14 @@
 export function checkEmail(email: string): boolean {
-    const at: string[] = email.split("@");
-    const dot: string[] = at[1].split(".");
-    console.log(at[0]);
-    console.log(dot[0]);
-    console.log(dot[1]);
-    return at[0].length > 0 && 
-           dot[0].length > 0 &&  
-           dot[1].length > 1;
+    try{
+        const at: string[] = email.split("@");
+        const dot: string[] = at[1].split(".");
+        return at[0].length > 0 && 
+            dot[0].length > 0 &&  
+            dot[1].length > 1;
+    } catch {
+        return false;
+    }
+    
 }
 
 

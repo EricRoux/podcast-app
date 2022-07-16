@@ -6,13 +6,11 @@ import { postRequest, URL } from "./auth";
 import { createErrorMessage } from "./Utils/createErrorMessage";
 
 export class Modal {
-
     private modalBtn: HTMLButtonElement;
     private modalClass: string = "modal";
 
     constructor(modalBtn: HTMLButtonElement) {
         this.modalBtn = modalBtn;
-        
         this.createBtnEvents = this.createBtnEvents.bind(this);
         this.modal = this.modal.bind(this);
         this.openModal = this.openModal.bind(this);
@@ -21,6 +19,7 @@ export class Modal {
         this.authFormHandler = this.authFormHandler.bind(this);
         this.regFormHandler = this.regFormHandler.bind(this);
         this.getCreds = this.getCreds.bind(this);
+        this.closeButtonModal= this.closeButtonModal.bind(this);
     }
     
     private closeModal(): void {
@@ -46,7 +45,7 @@ export class Modal {
         event.preventDefault();
         const userAuth: IUserAuth = this.getCreds(".auth-form");
         if(!checkEmail(userAuth.email)) {
-            createErrorMessage("Неправильный Email",".mui-textfield");
+            createErrorMessage("Неправильный Email",".auth-form");
             return;
         }
         this.closeModal();
@@ -61,25 +60,33 @@ export class Modal {
             .querySelector("#password2"))
             .value;
         if(!checkEmail(userAuth.email)) {
-            createErrorMessage("Неправильный Email",".mui-textfield");
+            createErrorMessage("Неправильный Email",".reg-form");
             return;
         } else if(!checkPasswordLen(userAuth.password)){
-            createErrorMessage("Пароль слишком короткий",".mui-textfield");
+            createErrorMessage("Пароль слишком короткий",".reg-form");
             return; 
         } else if(!checkPasswordDiff(userAuth.password, password2)) {
-            createErrorMessage("Пароль слишком короткий",".mui-textfield");
+            createErrorMessage("Пароли не совпадают",".reg-form");
             return;
         }
         this.closeModal();
         postRequest(URL.Registration, userAuth);
     }
+
+    private closeButtonModal(event: Event): void {
+        event.preventDefault();
+        this.closeModal();
+    }
     
     private modalEvents(): void {
-        const authForm: HTMLFormElement = document.querySelector(".auth-form");
-        authForm.addEventListener("submit", this.authFormHandler, {once: true});
-        const regForm: HTMLFormElement = document.querySelector(".reg-form");
-        regForm.addEventListener("submit", this.regFormHandler, {once: true});
-        // modal.className = className;
+        const authForm: HTMLDivElement = document.querySelector("#authSubmit");
+        authForm.addEventListener("click", this.authFormHandler);
+        const authClose: HTMLDivElement = document.querySelector(".auth-close-button");
+        authClose.addEventListener("click", this.closeButtonModal);
+        const regForm: HTMLDivElement = document.querySelector("#regSubmit");
+        regForm.addEventListener("click", this.regFormHandler);
+        const regClose: HTMLDivElement = document.querySelector(".reg-close-button");
+        regClose.addEventListener("click", this.closeButtonModal);        
     }
 
     private openModal(className: string): void {
@@ -96,7 +103,6 @@ export class Modal {
             this.modalBtn.innerText = "+";
         } else {
             this.closeModal();
-            // getQuestions();
         }
     }
 

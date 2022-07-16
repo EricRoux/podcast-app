@@ -9,13 +9,25 @@ function AuthFormHTML(): string {
             <input type="password" id="password" required>
             <label for="password">Пароль</label>
         </div>
-        <button 
-            type="submit"
-            id="authSubmit"
-            class="mui-btn mui-btn--raised mui-btn--primary"
-        >
-            Войти
-        </button>
+        <div class="buttons">
+            <div class="auth-button">
+                <button 
+                    type="submit"
+                    id="authSubmit"
+                    class="mui-btn mui-btn--raised mui-btn--primary"
+                >
+                    Войти
+                </button>
+            </div>
+            <div class="auth-close-button">
+                <button 
+                    type="submit"
+                    class="mui-btn mui-btn--raised mui-btn--primary"
+                >
+                    Закрыть
+                </button>
+            </div>
+        </div>
     </form>
     `;
 }
@@ -35,13 +47,25 @@ function regFormHTML(): string {
             <input type="password" id="password2" required>
             <label for="password">Пароль</label>
         </div>
-        <button 
-            type="submit" 
-            id="regSubmit"
-            class="mui-btn mui-btn--raised mui-btn--primary"
-        >
-            Зарегистрироваться
-        </button>
+        <div class="buttons">
+            <div class="reg-button">
+                <button 
+                    type="submit" 
+                    id="regSubmit"
+                    class="mui-btn mui-btn--raised mui-btn--primary"
+                >
+                    Зарегистрироваться
+                </button>
+            </div>
+            <div class="reg-close-button">
+                <button 
+                    type="submit"
+                    class="mui-btn mui-btn--raised mui-btn--primary"
+                >
+                    Закрыть
+                </button>
+            </div>
+        </div>
     </form>
     `;
 }
