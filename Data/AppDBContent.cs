@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using project1.Models;
+using project1.Models.DbModels;
 using System.IO;
 
 namespace project1.Data

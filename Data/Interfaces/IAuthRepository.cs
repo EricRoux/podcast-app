@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using project1.Models;
+using project1.Models.DbModels;
 
 namespace project1.Data.Interfaces
 {

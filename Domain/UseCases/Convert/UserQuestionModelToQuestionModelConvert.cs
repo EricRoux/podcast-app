@@ -1,6 +1,6 @@
-using System;
-using project1.Models;
+
 using project1.Models.Requests;
+using project1.Models.Responses;
 
 namespace project1.Domain.UseCases.Convert
 {

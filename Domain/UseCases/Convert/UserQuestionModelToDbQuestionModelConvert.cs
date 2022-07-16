@@ -1,4 +1,4 @@
-using project1.Models;
+using project1.Models.DbModels;
 using project1.Models.Requests;
 using project1.Models.Responses;
 

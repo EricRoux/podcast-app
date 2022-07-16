@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using project1.Models.Requests;
 
-namespace project1.Models
+namespace project1.Models.Responses
 {
     public class QuestionModel : UserQuestionModel
     {

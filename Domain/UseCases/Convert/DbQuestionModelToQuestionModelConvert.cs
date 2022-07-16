@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using project1.Models;
+using project1.Models.DbModels;
+using project1.Models.Responses;
 
 namespace project1.Domain.UseCases.Convert
 {

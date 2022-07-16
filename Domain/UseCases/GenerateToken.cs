@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using project1.Models;
+using project1.Models.DbModels;
 
 namespace project1.Domain.UseCases
 {

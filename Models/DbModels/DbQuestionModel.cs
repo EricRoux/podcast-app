@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using project1.Models.Requests;
 
-namespace project1.Models
+namespace project1.Models.DbModels
 {
     [Table("Questions", Schema = "Questions")]
-    public class DbQuestionModel: UserQuestionModel
+    public class DbQuestionModel : UserQuestionModel
     {
         [Key]
         public int Id { get; set; }

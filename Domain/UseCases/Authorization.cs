@@ -5,6 +5,7 @@ using project1.Domain.UseCases.Convert;
 using project1.Models.Requests;
 using Microsoft.Extensions.Options;
 using project1.Models.Responses;
+using project1.Models.DbModels;
 
 namespace project1.Domain.UseCases
 {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using project1.Models.Requests;
 using System.Collections.Generic;
 
-namespace project1.Models
+namespace project1.Models.DbModels
 {
     [Table("Users", Schema = "Questions")]
     public class DbAccountModel : UserAuthModel
@@ -17,7 +17,8 @@ namespace project1.Models
 
     }
 
-    public enum Role {
+    public enum Role
+    {
         User,
         Admin
     }

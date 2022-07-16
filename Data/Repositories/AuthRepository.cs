@@ -1,8 +1,8 @@
 using project1.Data.Interfaces;
-using project1.Models;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using project1.Models.DbModels;
 
 namespace project1.Data.Repositories
 {

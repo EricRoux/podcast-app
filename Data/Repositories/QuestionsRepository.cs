@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using project1.Data.Interfaces;
-using project1.Models;
+using project1.Models.DbModels;
+using project1.Models.Responses;
 
 namespace project1.Data.Repositories
 {

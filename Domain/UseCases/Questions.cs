@@ -1,12 +1,12 @@
 using System.Linq;
 using System;
-using project1.Models;
 using project1.Data.Interfaces;
 using project1.Presentation.Interfaces;
 using project1.Domain.UseCases.Convert;
 using project1.Models.Requests;
 using project1.Models.Responses;
 using System.Collections.Generic;
+using project1.Models.DbModels;
 
 namespace project1.Domain.UseCases
 {
