@@ -1,11 +1,9 @@
 import { createModal } from "./Utils/createModal";
-import { getAuthFormHTML, authWithEmailAndPassword } from "./auth";
-import { createErrorMessage } from "./Utils/createErrorMessage";
+import { getAuthFormHTML } from "./ModalHTMLForm";
 import { IUserAuth } from "./Interfaces/IUserAuth";
-import { getQuestions } from "./question";
-import { IQuestion, IQuestions } from "./Interfaces/IQuestion";
-import { AddQuestionToLocalStorage } from "./Utils/AddQuestionToLocalStorage";
-import { renderList } from "./Utils/renderList";
+import { checkEmail, checkPasswordDiff, checkPasswordLen } from "./Utils/CheckCreds";
+import { postRequest, URL } from "./auth";
+import { createErrorMessage } from "./Utils/createErrorMessage";
 
 export class Modal {
 
@@ -21,58 +19,66 @@ export class Modal {
         this.closeModal = this.closeModal.bind(this);
         this.modalEvents = this.modalEvents.bind(this);
         this.authFormHandler = this.authFormHandler.bind(this);
+        this.regFormHandler = this.regFormHandler.bind(this);
+        this.getCreds = this.getCreds.bind(this);
     }
     
     private closeModal(): void {
         document.querySelector(`.${this.modalClass}`).remove();
         this.modalBtn.innerText = "+";
     }
+
+    private getCreds(className: string): IUserAuth {
+        return {
+            email: (<HTMLInputElement>document
+                .querySelector(className)
+                .querySelector("#email")
+            ).value,
+        
+            password: (<HTMLInputElement>document
+                .querySelector(className)
+                .querySelector("#password")
+            ).value,
+        };
+    }
     
     private authFormHandler(event: Event): void {
         event.preventDefault();
-        const target: HTMLTextAreaElement = event.target as HTMLTextAreaElement;
-        const userAuth: IUserAuth = {
-            email: (
-                <HTMLInputElement>document
-                    .querySelector(`.${target.className}`)
-                    .querySelector("#authEmail")
-            ).value,
-        
-            password: (
-                <HTMLInputElement>document
-                    .querySelector(`.${target.className}`)
-                    .querySelector("#authPassword")
-            ).value,
-        };
-        
+        const userAuth: IUserAuth = this.getCreds(".auth-form");
+        if(!checkEmail(userAuth.email)) {
+            createErrorMessage("Неправильный Email",".mui-textfield");
+            return;
+        }
         this.closeModal();
-        authWithEmailAndPassword(userAuth)
-            .then((token: string): Promise<IQuestions> => {
-                localStorage.setItem("bearer", token);
-                localStorage.removeItem("questions");
-                // this.modalBtn.innerText = "o";
-                return getQuestions();
-            })
-            .then((json: IQuestions): void => {
-                if(json.status == 0) console.log(json.message); 
-                json.questions.forEach((question: IQuestion): void => {
-                    AddQuestionToLocalStorage(question);
-                });
-            })
-            .then(renderList)
-            .catch((rejected: PromiseRejectedResult): void => {
-                console.log(rejected);
-                createErrorMessage("Потеряно соединение с сервером");
-            });
+        postRequest(URL.Login, userAuth);
+    }
+
+    private regFormHandler(event: Event): void {
+        event.preventDefault();
+        const userAuth: IUserAuth = this.getCreds(".reg-form");
+        const password2: string = (<HTMLInputElement>document
+            .querySelector(".reg-form")
+            .querySelector("#password2"))
+            .value;
+        if(!checkEmail(userAuth.email)) {
+            createErrorMessage("Неправильный Email",".mui-textfield");
+            return;
+        } else if(!checkPasswordLen(userAuth.password)){
+            createErrorMessage("Пароль слишком короткий",".mui-textfield");
+            return; 
+        } else if(!checkPasswordDiff(userAuth.password, password2)) {
+            createErrorMessage("Пароль слишком короткий",".mui-textfield");
+            return;
+        }
+        this.closeModal();
+        postRequest(URL.Registration, userAuth);
     }
     
     private modalEvents(): void {
-        const modal = document.querySelector("#auth-form");
-        modal.addEventListener("submit", this.authFormHandler);
-        // modal.addEventListener(
-        //      "#regSubmit", 
-        //      this.authFormHandler
-        // );
+        const authForm: HTMLFormElement = document.querySelector(".auth-form");
+        authForm.addEventListener("submit", this.authFormHandler, {once: true});
+        const regForm: HTMLFormElement = document.querySelector(".reg-form");
+        regForm.addEventListener("submit", this.regFormHandler, {once: true});
         // modal.className = className;
     }
 

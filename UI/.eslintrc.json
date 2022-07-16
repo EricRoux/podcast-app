@@ -59,6 +59,7 @@
             "error", {
                 "allowTypedFunctionExpressions": false
             }
-        ]
+        ],
+        "@typescript-eslint/ban-types": "off"
     }
 }

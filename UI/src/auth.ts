@@ -1,94 +1,21 @@
 import { IAuthResponse } from "./Interfaces/IAuthResponse";
+import { IQuestion, IQuestions } from "./Interfaces/IQuestion";
 import { IUserAuth } from "./Interfaces/IUserAuth";
+import { getQuestions } from "./question";
+import { AddQuestionToLocalStorage } from "./Utils/AddQuestionToLocalStorage";
 import { createErrorMessage } from "./Utils/createErrorMessage";
+import { renderList } from "./Utils/renderList";
 
-function AuthFormHTML(): string {
-    return `
-    <form class="mui-form" id="auth-form">
-        <div class="mui-textfield">
-            <input type="email" id="authEmail" required>
-            <label for="authEmail">Email</label>
-        </div>
-        <div class="mui-textfield">
-            <input type="password" id="authPassword" required>
-            <label for="authPassword">Пароль</label>
-        </div>
-        <button 
-            type="submit"
-            id="authSubmit"
-            class="mui-btn mui-btn--raised mui-btn--primary"
-        >
-            Войти
-        </button>
-    </form>
-    `;
+export enum URL {
+    Login = "/api/v1/Auth/login",
+    Registration = "/api/v1/Auth/registration"
 }
 
-function regFormHTML(): string {
-    return `
-    <form class="mui-form">
-        <div class="mui-textfield">
-            <input type="email" id="regEmail" required>
-            <label for="regEmail">Email</label>
-        </div>
-        <div class="mui-textfield">
-            <input type="password" id="regPassword1" required>
-            <label for="password">Пароль</label>
-        </div>
-        <div class="mui-textfield">
-            <input type="password" id="regPassword2" required>
-            <label for="password">Пароль</label>
-        </div>
-        <button 
-            type="submit" 
-            id="regSubmit"
-            class="mui-btn mui-btn--raised mui-btn--primary"
-        >
-            Зарегистрироваться
-        </button>
-    </form>
-    `;
-}
-
-export function getAuthFormHTML(): string {
-    return `
-    <ul class="mui-tabs__bar">
-        <li class="mui--is-active">
-            <a data-mui-toggle="tab" data-mui-controls="pane-default-1">Авторизация</a>
-        </li>
-        <li>
-            <a data-mui-toggle="tab" data-mui-controls="pane-default-2">Регистрация</a>
-        </li>
-    </ul>
-    <div class="mui-tabs__pane mui--is-active" id="pane-default-1">` + AuthFormHTML() + `</div>
-    <div class="mui-tabs__pane" id="pane-default-2">` + regFormHTML() + "</div>";
-}
-
-export function authWithEmailAndPassword(
+function sendPOSTWithEmailAndPassword(
+    path: URL,
     userAuth: IUserAuth
 ): Promise<string> {
-    return fetch("http://localhost:5050/api/v1/Auth/login", {    
-        method: "POST",
-        body: JSON.stringify(userAuth),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
-        .then((response: Response): Promise<IAuthResponse> => response.json())
-        .then((data: IAuthResponse): string => {
-            if(data.status == 1)
-                return data.token;
-            else
-                createErrorMessage(data.message);
-            throw new Error("Something went wrong");
-        });
-}
-
-
-export function regWithEmailAndPassword(
-    userAuth: IUserAuth
-): Promise<string> {
-    return fetch("http://localhost:5050/api/v1/Auth/registration", {    
+    return fetch("http://localhost:5050" + path, {    
         method: "POST",
         body: JSON.stringify(userAuth),
         headers: {
@@ -102,5 +29,25 @@ export function regWithEmailAndPassword(
             else
                 createErrorMessage(data.message);
             throw new Error(data.message);
+        });
+}
+
+export function postRequest(path: URL, userAuth: IUserAuth): void {
+    sendPOSTWithEmailAndPassword(path, userAuth)
+        .then((token: string): Promise<IQuestions> => {
+            localStorage.setItem("bearer", token);
+            localStorage.removeItem("questions");
+            return getQuestions();
+        })
+        .then((json: IQuestions): void => {
+            if(json.status == 0) console.log(json.message); 
+            json.questions.forEach((question: IQuestion): void => {
+                AddQuestionToLocalStorage(question);
+            });
+        })
+        .then(renderList)
+        .catch((rejected: PromiseRejectedResult): void => {
+            console.log(rejected);
+            createErrorMessage("Потеряно соединение с сервером");
         });
 }
