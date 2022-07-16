@@ -7,6 +7,6 @@ namespace project1.Presentation.Interfaces
     public interface IQuestionEntity
     {
         QuestionsResponseModel AddQiestion(UserQuestionModel q, Guid UserId);
-        QuestionsResponseModel GetQuestions(Guid UserId);
+        QuestionsResponseModel GetQuestions(Guid UserId, int firstId = 0);
     }
 }

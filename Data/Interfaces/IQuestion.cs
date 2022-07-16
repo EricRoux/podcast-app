@@ -9,6 +9,7 @@ namespace project1.Data.Interfaces
     {
         DbQuestionModel AddQuestion(DbQuestionModel question);
         DbQuestionModel Check(int questionId);
-        IEnumerable<QuestionModel> GetAllQuestionByUserGuid(Guid UserGuid);
+        IEnumerable<QuestionModel> GetAllQuestionsByUserGuid(Guid UserGuid, int firstId = 0);
+        IEnumerable<QuestionModel> GetAllQuestions(int firstId = 0);
     }
 }

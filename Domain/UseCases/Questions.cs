@@ -50,8 +50,13 @@ namespace project1.Domain.UseCases
                 Questions = questionsList
             };
         
-        public QuestionsResponseModel GetQuestions(Guid UserGuid) {
-            List<QuestionModel> questionsList = questionsRepository.GetAllQuestionByUserGuid(UserGuid).ToList();
+        public QuestionsResponseModel GetQuestions(Guid UserGuid, int firstId = 0) {
+            DbAccountModel user = authRepository.GetAccountByGuid(UserGuid);
+            List<QuestionModel> questionsList;
+            if(user.Role == Role.Admin)
+                questionsList = questionsRepository.GetAllQuestions(firstId).ToList();
+            else
+                questionsList = questionsRepository.GetAllQuestionsByUserGuid(UserGuid, firstId).ToList();
             return CompleteQuestionResponse(questionsList);
         }
 
