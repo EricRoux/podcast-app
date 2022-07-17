@@ -32,12 +32,12 @@ export class Modal {
             email: (<HTMLInputElement>document
                 .querySelector(className)
                 .querySelector("#email")
-            ).value,
+            ).value.trim(),
         
             password: (<HTMLInputElement>document
                 .querySelector(className)
                 .querySelector("#password")
-            ).value,
+            ).value.trim(),
         };
     }
     

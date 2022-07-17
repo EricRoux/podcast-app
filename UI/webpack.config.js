@@ -41,7 +41,11 @@ module.exports = {
                     name: '[name].[contenthash].[ext]',
                 },
             },
-        ],
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
+            }
+        ]
     },
     resolve: {
         extensions: ['.ts', '.js'],

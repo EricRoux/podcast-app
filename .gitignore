@@ -1,8 +1,10 @@
 UI/node_modules/
 UI/public/
+UI/coverage
+UI/tests/testUser.json
 obj/
 bin/
 .vscode/
 Migrations/
 dbSettings.json
-/inf
+inf
