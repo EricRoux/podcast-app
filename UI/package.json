@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "jest --config ./jest.config.js",
+    "test": "jest --config ./jest.config.js && ts-node tests/selenium.ts",
     "dev": "webpack-dev-server --mode development",
     "build": "npm run test && webpack --mode production",
     "eslint": "eslint"
@@ -12,6 +12,7 @@
   "author": "",
   "devDependencies": {
     "@types/jest": "^28.1.6",
+    "@types/selenium-webdriver": "^4.1.1",
     "@typescript-eslint/eslint-plugin": "^5.30.3",
     "@typescript-eslint/parser": "^5.30.3",
     "clean-webpack-plugin": "^4.0.0",
@@ -26,6 +27,7 @@
     "node-fetch": "^3.2.8",
     "sass": "^1.53.0",
     "sass-loader": "^13.0.2",
+    "selenium-webdriver": "^4.3.1",
     "style-loader": "^3.3.1",
     "ts-jest": "^28.0.7",
     "ts-loader": "^9.3.1",
