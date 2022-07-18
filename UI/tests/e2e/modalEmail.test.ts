@@ -20,7 +20,7 @@ async function emailChecker(
     await message.findElement(By.xpath("//p[contains(text(), 'Неправильный Email')]"));
 }
 
-describe("Проверка кнопок на домашней странице", (): void => {
+describe("Проверка валидности Email", (): void => {
     let driver: typeof WebDriver;
     beforeAll(async (): Promise<void> => {
         driver = await createDriver();

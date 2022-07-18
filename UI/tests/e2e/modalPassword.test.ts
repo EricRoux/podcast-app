@@ -22,7 +22,7 @@ async function passwordChecker(
     await driver.findElement(By.xpath("//button[@id='regSubmit']")).click();
 }
 
-describe("Проверка кнопок на домашней странице", (): void => {
+describe("Проверка валидности пароля", (): void => {
     let driver: typeof WebDriver;
     beforeAll(async (): Promise<void> => {
         driver = await createDriver();
