@@ -2,11 +2,11 @@ function AuthFormHTML(): string {
     return `
     <form class="mui-form auth-form">
         <div class="mui-textfield">
-            <input type="email" id="email" required>
+            <input type="email" id="email" class="authEmail" required>
             <label for="email">Email</label>
         </div>
         <div class="mui-textfield">
-            <input type="password" id="password" required>
+            <input type="password" id="password" class="authPassword" required>
             <label for="password">Пароль</label>
         </div>
         <div class="buttons">
@@ -36,15 +36,15 @@ function regFormHTML(): string {
     return `
     <form class="mui-form reg-form">
         <div class="mui-textfield">
-            <input type="email" id="email" required>
+            <input type="email" id="email" class="regEmail" required>
             <label for="email">Email</label>
         </div>
         <div class="mui-textfield">
-            <input type="password" id="password" required>
+            <input type="password" id="password" class="regPassword1" required>
             <label for="password">Пароль</label>
         </div>
         <div class="mui-textfield">
-            <input type="password" id="password2" required>
+            <input type="password" id="password2" class="regPassword2" required>
             <label for="password">Пароль</label>
         </div>
         <div class="buttons">
