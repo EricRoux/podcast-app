@@ -1,4 +1,4 @@
-import { checkEmail, checkPasswordDiff, checkPasswordLen } from "../../src/Utils/CheckCreds";
+import { checkEmail, checkPasswordDiff, checkPasswordLen } from "../../../src/Utils/CheckCreds";
 
 describe("Проверка валидности email", (): void => {
     test("Валидный email", (): void => {

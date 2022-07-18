@@ -1,4 +1,4 @@
-import { isValidInput } from "../../src/Utils/isValidInput";
+import { isValidInput } from "../../../src/Utils/isValidInput";
 
 describe("Тестирование валидности введенного вопроса", (): void => {
     test("Меньше 10", (): void => {
