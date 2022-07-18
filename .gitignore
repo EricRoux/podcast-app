@@ -3,6 +3,7 @@ UI/public/
 UI/coverage
 UI/tests/testUser.json
 UI/tests/r.test.ts
+UI/tests/e2e/img
 obj/
 bin/
 .vscode/

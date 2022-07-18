@@ -1,16 +1,26 @@
-import {By, WebDriver, createDriver} from "../selenium";
+/* eslint-disable max-lines-per-function */
+import {By, WebDriver, createDriver, createDir, createScreenShoot} from "../selenium";
 
 jest.setTimeout(30000);
 
 describe("Проверка кнопок на домашней странице", (): void => {
     let driver: typeof WebDriver;
+    let testNumber: number = 1;
+    const date: string = new Date().toJSON();
+    const path: string = `./UI/tests/e2e/img/homeButton.test/${date}`;
+
     beforeAll(async (): Promise<void> => {
-        driver = await createDriver();
-        await driver.manage().setTimeouts({ implicit: 1000 });
+        await createDir(path);
+        driver = await createDriver();       
     });
 
     beforeEach(async (): Promise<void> => {
         await driver.get("http://172.17.0.1:3000");
+    });
+
+    afterEach(async (): Promise<void> => {
+        await createScreenShoot(driver, path, testNumber);
+        testNumber++;
     });
     
     afterAll(async (): Promise<void> => {
