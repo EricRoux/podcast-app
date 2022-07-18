@@ -2,6 +2,7 @@ UI/node_modules/
 UI/public/
 UI/coverage
 UI/tests/testUser.json
+UI/tests/r.test.ts
 obj/
 bin/
 .vscode/

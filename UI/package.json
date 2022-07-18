@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "jest --config ./jest.config.js && ts-node tests/selenium.ts",
+    "test": "jest --config ./jest.config.js",
     "dev": "webpack-dev-server --mode development",
     "build": "npm run test && webpack --mode production",
     "eslint": "eslint"

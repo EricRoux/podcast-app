@@ -4,8 +4,10 @@
     "noImplicitAny": true,
     "module": "es6",
     "target": "es2022",
+    "lib": ["es6"],
     "allowJs": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   }
 }
