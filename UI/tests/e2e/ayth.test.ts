@@ -30,8 +30,8 @@ describe("Проверка авторизации", (): void => {
     });
     
     afterAll(async (): Promise<void> => {
-        // await driver.close();
-        // await driver.quit();
+        await driver.close();
+        await driver.quit();
     });
     test("Aвторизация обычного пользователя", async (): Promise<void> => {
         const lineEmail: string = testUser.email;
