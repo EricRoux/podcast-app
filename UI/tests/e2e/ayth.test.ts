@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import {By, WebDriver, createDriver, createDir, createScreenShoot} from "../selenium";
+import {By, WebDriver, createDriver, createDir, createScreenshots} from "../selenium";
 const testUser = require("../testUser.json");
 
 jest.setTimeout(30000);
@@ -34,7 +34,7 @@ describe("Проверка авторизации", (): void => {
     });
 
     afterEach(async (): Promise<void> => {
-        await createScreenShoot(driver, path, testNumber);
+        await createScreenshots(driver, path, testNumber);
         testNumber++;
     });
     

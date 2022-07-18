@@ -28,7 +28,7 @@ async function createDir(path: string): Promise<void> {
     }
 }
 
-async function createScreenShoot(
+async function createScreenshots(
     driver: typeof WebDriver, 
     path: string, 
     counter: number
@@ -39,5 +39,5 @@ async function createScreenShoot(
 
 export {
     Builder, By, Key, until, Capabilities, WebDriver,
-    assert, chrome, fs, createDriver, createDir, createScreenShoot
+    assert, chrome, fs, createDriver, createDir, createScreenshots
 };

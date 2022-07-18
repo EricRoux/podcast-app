@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import {By, WebDriver, createDriver, createDir, createScreenShoot} from "../selenium";
+import {By, WebDriver, createDriver, createDir, createScreenshots} from "../selenium";
 
 jest.setTimeout(30000);
 
@@ -19,7 +19,7 @@ describe("Проверка кнопок на домашней странице",
     });
 
     afterEach(async (): Promise<void> => {
-        await createScreenShoot(driver, path, testNumber);
+        await createScreenshots(driver, path, testNumber);
         testNumber++;
     });
     
