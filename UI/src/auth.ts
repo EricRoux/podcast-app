@@ -4,7 +4,8 @@ import { IUserAuth } from "./Interfaces/IUserAuth";
 import { getQuestions } from "./question";
 import { AddQuestionToLocalStorage } from "./Utils/AddQuestionToLocalStorage";
 import { createErrorMessage } from "./Utils/createErrorMessage";
-import { renderList } from "./Utils/renderList";
+import { render } from "./Utils/renderList";
+import { SaveEmailToLocalStorage } from "./Utils/SaveEmailToLocalStorage";
 
 export enum URL {
     Login = "/api/v1/Auth/login",
@@ -43,9 +44,10 @@ export function postRequest(path: URL, userAuth: IUserAuth): void {
             if(json.status == 0) console.log(json.message); 
             json.questions.forEach((question: IQuestion): void => {
                 AddQuestionToLocalStorage(question);
+                SaveEmailToLocalStorage(userAuth.email);
             });
         })
-        .then(renderList)
+        .then(render)
         .catch((rejected: PromiseRejectedResult): void => {
             console.log(rejected);
             createErrorMessage("Потеряно соединение с сервером");

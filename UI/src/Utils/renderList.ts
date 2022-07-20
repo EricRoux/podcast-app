@@ -14,7 +14,12 @@ function toCard(num: number, question: IQuestion): string {
     `;
 }
 
-export function renderList(): void {
+function updateEmail(): void {
+    const author: HTMLElement = document.querySelector(".author");
+    author.innerText = localStorage.getItem("email") || "Не авторизован";
+}
+
+function renderList(): void {
     const questions: IQuestion[] = getQuestionsFromLocalStorage();
     if(!questions) return;
     const html: string = questions.length
@@ -26,4 +31,9 @@ export function renderList(): void {
         </div>`;
     const list: HTMLElement = document.querySelector("#list");
     list.innerHTML = html;
+}
+
+export function render(): void {
+    renderList();
+    updateEmail();
 }

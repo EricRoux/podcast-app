@@ -1,7 +1,7 @@
 import { isValidInput } from "./Utils/isValidInput";
 import { IQuestionRequest } from "./Interfaces/IQuestion";
 import { createQuestion } from "./question";
-import { renderList } from "./Utils/renderList";
+import { render } from "./Utils/renderList";
 import { createErrorMessage } from "./Utils/createErrorMessage";
 import { Modal } from "./modal";
 import "./styles.scss";
@@ -25,7 +25,7 @@ function submitFormHandler(event: Event): void {
             .then((): void => {
                 input.value = "";
                 input.className = "";
-                renderList();
+                render();
             });
     }
 }
@@ -42,5 +42,5 @@ function imputChanged(): void {
 const modalHTML: Modal = new Modal(modalBtn);
 modalHTML.createBtnEvents();
 form.addEventListener("submit", submitFormHandler);
-window.addEventListener("load", renderList);
+window.addEventListener("load", render);
 input.addEventListener("input", imputChanged);
