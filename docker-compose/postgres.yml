@@ -1,0 +1,12 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:latest
+    user: "postgres"
+    environment:
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+    ports:
+      - 5432:5432
+    volumes:
+      - "${PROJECT_PATH}/docker-compose/data:/var/lib/postgresql/data"
+    
