@@ -4,8 +4,8 @@ UI/coverage
 UI/tests/testUser.json
 UI/tests/r.test.ts
 UI/tests/e2e/img
-docker-compose/data
-docker-compose/.env
+system_services/data
+system_services/.env
 obj/
 bin/
 .vscode/
